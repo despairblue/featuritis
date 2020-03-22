@@ -9,7 +9,7 @@ let sendQuery = () => {
          fun
          | Ok({Response.body, headers, status, url}) => {
              printf(
-               "Headers: \n%sStatus-Code: %d\nBody: %s\nUrl: %s\n\n",
+               "Headers: \n%sStatus-Code: %d\nBody: %s\nUrl: %s\n\n%!",
                Response.Headers.toString(headers),
                Response.Status.toCode(status),
                Response.Body.toString(body),

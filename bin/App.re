@@ -39,6 +39,20 @@ module AnimatedText = {
   };
 };
 
+type action =
+  | Increment
+  | IncrementBy(int)
+  | Decrement
+  | DecrementBy(int);
+
+let reducer = (action, state) =>
+  switch (action) {
+  | Increment => state + 1
+  | IncrementBy(number) => state + number
+  | Decrement => state - 1
+  | DecrementBy(number) => state - number
+  };
+
 module SimpleButton = {
   module Styles = {
     open Style;
@@ -57,22 +71,26 @@ module SimpleButton = {
   };
 
   let%component make = () => {
-    let%hook (count, setCount) = React.Hooks.state(0);
+    // let%hook (count, setCount) = React.Hooks.state(0);
+    let%hook (state, dispatch) = Hooks.reducer(~initialState=0, reducer);
     let increment = () => {
-      setCount(count => count + 1);
+      // First call breaks second call.
+      dispatch(Increment);
       Hello.sendQuery()
       |> Lwt.map(
            fun
            | Some(bodyLength) => {
-               Printf.printf("in callback, bodyLength: %i\n", bodyLength);
-               setCount(count => count + bodyLength);
+               // Second call.
+               dispatch(IncrementBy(bodyLength));
+               Printf.printf("in callback, count: %i\n%!", state);
+               Printf.printf("in callback, bodyLength: %i\n%!", bodyLength);
              }
            | None => (),
          )
       |> ignore;
     };
 
-    let text = "Click me: " ++ string_of_int(count);
+    let text = "Click me: " ++ string_of_int(state);
     <Clickable onClick=increment>
       <View style=Styles.button>
         <Padding padding=4> <Text style=Styles.text text /> </Padding>
