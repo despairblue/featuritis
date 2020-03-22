@@ -5,27 +5,25 @@
   "license": "MIT",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
+    "buildDev":
+      "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
-    "release": {
-      "bin": [
-        "Hello"
-      ]
-    },
-    "buildEnv": {
-      "ODOC_SYNTAX": "re"
-    }
+    "release": { "bin": [ "Hello" ] },
+    "buildEnv": { "ODOC_SYNTAX": "re" }
   },
-  "scripts": {
-    "test": "esy x Hello",
-    "doc": "esy dune build @doc"
-  },
+  "scripts": { "test": "esy x Hello", "doc": "esy dune build @doc" },
   "dependencies": {
+    "@esy-ocaml/reason": ">= 3.4.0 < 3.6.0",
+    "@opam/base": "v0.13.1",
     "@opam/dune": "*",
+    "@opam/stdio": "v0.13.0",
+    "@opam/yojson": "1.7.0",
     "@reason-native/console": "*",
     "@reason-native/pastel": "*",
-    "@esy-ocaml/reason": ">= 3.4.0 < 3.6.0",
-    "ocaml": "~4.8.1000"
+    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#0774bc989493f78f87e1689731f41f2a83ea0b78",
+    "graphql_ppx": "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
+    "ocaml": "~4.8.1000",
+    "revery": "github:revery-ui/revery#1196f1b"
   },
   "devDependencies": {
     "@opam/merlin": "*",
@@ -33,5 +31,8 @@
     "refmterr": "*",
     "ocaml": "~4.8.1000",
     "@opam/odoc": "*"
+  },
+  "resolutions": {
+    "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755"
   }
 }
