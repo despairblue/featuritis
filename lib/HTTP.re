@@ -5,14 +5,38 @@ let (let.flatMapSome) = (promise, fn) =>
   Lwt.map(
     fun
     | Ok(response) => fn(response)
-    | Error(_e) => None,
+    | Error(error) => {
+        printf("That's and error: %s%!", error);
+
+        None;
+      },
     promise,
   );
 
-let sendQuery = () => {
+let sendQuery = (~query, ~variables, ~authToken) => {
   open Fetch;
 
-  let.flatMapSome {Response.body, _} = get("https://google.com");
+  printf("sendQuery\n%!");
 
-  Some(body |> Response.Body.toString |> String.length);
+  let query =
+    `Assoc([
+      ("operationName", `Null),
+      ("query", `String(query)),
+      ("variables", variables),
+    ]);
+  let body = Yojson.Basic.to_string(query);
+  let headers = [
+    ("authToken", authToken),
+    ("content-type", "application/json"),
+    ("Accept", "*/*"),
+  ];
+
+  let.flatMapSome {Response.body, _} =
+    post("http://localhost:3000/api/v0.0.1/graphql", ~headers, ~body);
+  Some(
+    body
+    |> Response.Body.toString
+    |> Yojson.Basic.from_string
+    |> Yojson.Basic.Util.member("data"),
+  );
 };
