@@ -13,8 +13,9 @@
   },
   "scripts": { "test": "esy x Hello", "doc": "esy dune build @doc" },
   "dependencies": {
-    "@esy-ocaml/reason": ">= 3.4.0 < 3.6.0",
+    "@esy-ocaml/reason": "3.6.0",
     "@opam/base": "v0.13.1",
+    "ocaml-syntax-shims": "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
     "@opam/dune": "*",
     "@opam/stdio": "v0.13.0",
     "@opam/yojson": "1.7.0",
@@ -33,6 +34,7 @@
     "@opam/odoc": "*"
   },
   "resolutions": {
+    "@esy-ocaml/reason": "3.6.0",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755"
   }
 }

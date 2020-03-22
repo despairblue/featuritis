@@ -1,6 +1,5 @@
 (executables
   (names Hello App)
   (public_names Hello App)
-  (preprocess
-    (pps brisk-reconciler.ppx graphql_ppx  ))
+  (preprocess (pps brisk-reconciler.ppx graphql_ppx) )
   (libraries base stdio yojson console.lib lib fetch-native-lwt Revery Revery.lwt))

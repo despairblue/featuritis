@@ -76,7 +76,8 @@ module SimpleButton = {
     let increment = () => {
       // First call breaks second call.
       dispatch(Increment);
-      Hello.sendQuery()
+      // Hello.sendQuery()
+      Lib.HTTP.sendQuery()
       |> Lwt.map(
            fun
            | Some(bodyLength) => {
