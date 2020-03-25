@@ -35,6 +35,7 @@
   },
   "resolutions": {
     "@esy-ocaml/reason": "3.6.0",
+    "@esy-ocaml/libffi": "esy-ocaml/libffi#c61127d",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "reason-skia": "glennsl/reason-skia#f427dea3273eb2cfa1ee867446a0ad7cfc1f0530"
   }
