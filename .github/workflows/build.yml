@@ -65,6 +65,7 @@ jobs:
           tree _release/
 
       - uses: actions/upload-artifact@v1
+
         if: matrix.os == 'ubuntu-latest'
         with:
           name: linux-featuritis.AppImage

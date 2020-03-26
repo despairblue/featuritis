@@ -34,9 +34,10 @@
     "@opam/odoc": "*"
   },
   "resolutions": {
-    "@esy-ocaml/reason": "3.6.0",
     "@esy-ocaml/libffi": "esy-ocaml/libffi#c61127d",
+    "@esy-ocaml/reason": "3.6.0",
+    "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
-    "reason-skia": "glennsl/reason-skia#f427dea3273eb2cfa1ee867446a0ad7cfc1f0530"
+    "reason-skia": "revery-ui/reason-skia#2f07ec36617516dfb8c0c01c2e54049872a1d608"
   }
 }
