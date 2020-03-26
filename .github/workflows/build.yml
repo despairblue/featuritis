@@ -65,9 +65,10 @@ jobs:
         run: |
           revery-packager || true
           tree _release/ || true
-      # - name: Upload Binary
-      #   uses: actions/upload-artifact@v1
-      #   if: matrix.os == 'ubuntu-latest'
-      #   with:
-      #     name: linux-featuritis.AppImage
-      #     path: _release/ReveryApp-x86_64.AppImage
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v1
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: linux-featuritis.AppImage
+          path: _release/ReveryApp-x86_64.AppImage
