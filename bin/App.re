@@ -2,6 +2,13 @@ open Revery;
 open Revery.UI;
 open MyComponents.Components;
 
+let printHealthAndExit = () => {
+  Stdio.(printf("Hi, this works!\n%!"));
+  exit(0);
+};
+
+Arg.parse([("--checkhealth", Unit(printHealthAndExit), "")], _ => (), "");
+
 let main = () => {
   module Styles = {
     open Style;

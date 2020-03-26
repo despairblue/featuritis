@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "esy x App",
-    "test": "esy x Hello",
+    "test": "esy x App --checkhealth",
     "doc": "esy dune build @doc",
     "format": "esy dune build @fmt --auto-promote"
    },
