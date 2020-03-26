@@ -36,9 +36,9 @@ jobs:
           brew install cmake libtool libpng ragel tree || true
           brew upgrade cmake libtool libpng ragel tree || true
 
-      - name: Install native dependencies on windows-latest
-        if: matrix.os == 'windows-latest'
-        run: npm install -g windows-build-tools
+      # - name: Install native dependencies on windows-latest
+      #   if: matrix.os == 'windows-latest'
+      #   run: npm install -g windows-build-tools
 
       - name: Install
         run: esy install
