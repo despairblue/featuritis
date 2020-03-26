@@ -24,14 +24,14 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-utils mesa-utils-extra ragel libgtk-3-dev nasm
+          sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-utils mesa-utils-extra ragel libgtk-3-dev nasm tree
 
       - name: Install native dependencies on macos-latest
         if: matrix.os == 'macos-latest'
         run: |
           brew update
-          brew install cmake libtool libpng ragel || true
-          brew upgrade cmake libtool libpng ragel || true
+          brew install cmake libtool libpng ragel tree || true
+          brew upgrade cmake libtool libpng ragel tree || true
 
       - name: Install
         run: esy install
@@ -57,15 +57,12 @@ jobs:
         run: esy doc
 
       - name: Build Binary
-        run: esy doc
-
-      - name: Install native dependencies on macos-latest
         run: |
           revery-packager
           tree _release/
 
-      - uses: actions/upload-artifact@v1
-
+      - name: Upload Binary
+        uses: actions/upload-artifact@v1
         if: matrix.os == 'ubuntu-latest'
         with:
           name: linux-featuritis.AppImage
