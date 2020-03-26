@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install esy
         run: npm install -g esy
+      - name: Install revery-packager
+        run: npm install -g revery-packager
 
       - name: Install native dependencies on ubuntu-latest
         if: matrix.os == 'ubuntu-latest'
@@ -53,3 +55,17 @@ jobs:
 
       - name: Build docs
         run: esy doc
+
+      - name: Build Binary
+        run: esy doc
+
+      - name: Install native dependencies on macos-latest
+        run: |
+          revery-packager
+          tree _release/
+
+      - uses: actions/upload-artifact@v1
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: linux-featuritis.AppImage
+          path: _release/ReveryApp-x86_64.AppImage
