@@ -73,3 +73,10 @@ jobs:
         with:
           name: linux-featuritis.AppImage
           path: _release/ReveryApp-x86_64.AppImage
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v1
+        if: matrix.os == 'macos-latest'
+        with:
+          name: macosx-featuritis.dmg
+          path: _release/ReveryApp.dmg
