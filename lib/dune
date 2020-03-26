@@ -1,5 +1,6 @@
 (library
-  (name lib)
-  (flags (-w -40 -w +26))
-  (preprocess future_syntax)
-  (libraries base stdio yojson fetch-native-lwt pastel.lib))
+ (name lib)
+ (flags
+  (-w -40 -w +26))
+ (preprocess future_syntax)
+ (libraries base stdio yojson fetch-native-lwt pastel.lib))

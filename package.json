@@ -11,7 +11,12 @@
     "release": { "bin": [ "Hello" ] },
     "buildEnv": { "ODOC_SYNTAX": "re" }
   },
-  "scripts": { "test": "esy x Hello", "doc": "esy dune build @doc" },
+  "scripts": {
+    "start": "esy x App",
+    "test": "esy x Hello",
+    "doc": "esy dune build @doc",
+    "format": "esy dune build @fmt --auto-promote"
+   },
   "dependencies": {
     "@esy-ocaml/reason": "3.6.0",
     "@opam/base": "v0.13.1",
