@@ -59,8 +59,7 @@ jobs:
           esy build || true
           cd C:/Users/runneradmin/.esy/3/b/reason_skia-9606668b\default/src/wrapped/c
           ls . || true
-          tree . || true
-          C:\npm\prefix\node_modules\esy\node_modules\esy-bash\.cygwin\bin\x86_64-w64-mingw32-gcc.exe -O -mms-bitfields -shared -o dllskia_wrapped_c_stubs.dll c_stubs.o -luser32 -lskia -lSDL2 -lstdc++ -LC:/Users/runneradmin/.esy/3___________________________________________________________/i/esy_sdl2-2.0.10006-d4b1b631/lib -LC:/Users/runneradmin/.esy/3___________________________________________________________/i/esy_skia-8fc1bf7f/lib || true
+          esy b bash -c 'cd C:/Users/runneradmin/.esy/3/b/reason_skia-9606668b\default/src/wrapped/c && C:\npm\prefix\node_modules\esy\node_modules\esy-bash\.cygwin\bin\x86_64-w64-mingw32-gcc.exe -O -mms-bitfields -shared -o dllskia_wrapped_c_stubs.dll c_stubs.o -luser32 -lskia -lSDL2 -lstdc++ -LC:/Users/runneradmin/.esy/3___________________________________________________________/i/esy_sdl2-2.0.10006-d4b1b631/lib -LC:/Users/runneradmin/.esy/3___________________________________________________________/i/esy_skia-8fc1bf7f/lib' || true
       # - name: Test
       #   run: esy test
       #
