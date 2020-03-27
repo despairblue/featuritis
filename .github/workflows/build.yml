@@ -55,33 +55,31 @@ jobs:
           key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
 
       - name: Build
-        run: esy build
-
-      - name: Test
-        run: esy test
-
-      - name: Build docs
-        run: esy doc
-
+        run: |
+          esy build || true
+          cd C:/Users/runneradmin/.esy/3/b/reason_skia-9606668b\default/src/wrapped/c && C:\npm\prefix\node_modules\esy\node_modules\esy-bash\.cygwin\bin\x86_64-w64-mingw32-gcc.exe -O -mms-bitfields -shared -o dllskia_wrapped_c_stubs.dll c_stubs.o -luser32 -lskia -lSDL2 -lstdc++ -L ||
+      # - name: Test
+      #   run: esy test
+      #
+      # - name: Build docs
+      #   run: esy doc
       # For Debugging
       # - name: Debugging with tmate
       #   uses: mxschmitt/action-tmate@v2
-
-      - name: Build Binary
-        run: |
-          revery-packager || true
-          tree _release/ || true
-
-      - name: Upload Binary
-        uses: actions/upload-artifact@v1
-        if: matrix.os == 'ubuntu-latest'
-        with:
-          name: linux-featuritis.AppImage
-          path: _release/ReveryApp-x86_64.AppImage
-
-      - name: Upload Binary
-        uses: actions/upload-artifact@v1
-        if: matrix.os == 'macos-latest'
-        with:
-          name: macosx-featuritis.dmg
-          path: _release/ReveryApp.dmg
+      # - name: Build Binary
+      #   run: |
+      #     revery-packager || true
+      #     tree _release/ || true
+      # - name: Upload Binary
+      #   uses: actions/upload-artifact@v1
+      #   if: matrix.os == 'ubuntu-latest'
+      #   with:
+      #     name: linux-featuritis.AppImage
+      #     path: _release/ReveryApp-x86_64.AppImage
+      #
+      # - name: Upload Binary
+      #   uses: actions/upload-artifact@v1
+      #   if: matrix.os == 'macos-latest'
+      #   with:
+      #     name: macosx-featuritis.dmg
+      #     path: _release/ReveryApp.dmg
