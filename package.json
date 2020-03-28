@@ -47,7 +47,7 @@
     "@esy-ocaml/reason": "3.6.0",
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
-    "esy-skia": "revery-ui/esy-skia#91b10c9",
-    "reason-skia": "revery-ui/reason-skia#cc3cfa8"
+    "esy-skia": "revery-ui/esy-skia#2aa29494b8e1e33c66637c1fdb07b20e1661764f",
+    "reason-skia": "revery-ui/reason-skia#f6acf00070043008eb44445ff759319390b180a2"
   }
 }
