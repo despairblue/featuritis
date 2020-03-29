@@ -43,9 +43,9 @@ jobs:
       # - name: Install
       #   run: esy install
 
-      - name: Print esy cache
-        id: print_esy_cache
-        run: node .github/workflows/print_esy_cache.js
+      # - name: Print esy cache
+      #   id: print_esy_cache
+      #   run: node .github/workflows/print_esy_cache.js
 
       # - name: Try to restore dependencies cache
       #   if: matrix.os != 'windows-2016'
