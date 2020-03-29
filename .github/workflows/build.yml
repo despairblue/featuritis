@@ -48,8 +48,16 @@ jobs:
         run: node .github/workflows/print_esy_cache.js
 
       - name: Try to restore dependencies cache
-        id: deps-cache-macos
+        if: matrix.os != 'windows-2016'
         uses: actions/cache@v1
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+
+      - name: Try to restore dependencies cache on windows
+        if: matrix.os == 'windows-2016'
+        # See: https://github.com/actions/cache/issues/153
+        uses: actions/cache@v1.0.3
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
           key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
