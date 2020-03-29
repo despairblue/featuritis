@@ -40,30 +40,70 @@ jobs:
       #   if: matrix.os == 'windows-latest'
       #   run: npm install -g windows-build-tools
 
-      - name: Install
-        run: esy install
+      # - name: Install
+      #   run: esy install
 
       - name: Print esy cache
         id: print_esy_cache
         run: node .github/workflows/print_esy_cache.js
 
-      - name: Try to restore dependencies cache
-        if: matrix.os != 'windows-2016'
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+      # - name: Try to restore dependencies cache
+      #   if: matrix.os != 'windows-2016'
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+      #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
 
-      - name: Try to restore dependencies cache on windows
-        if: matrix.os == 'windows-2016'
-        # See: https://github.com/actions/cache/issues/153
-        uses: actions/cache@v1.0.3
+      - uses: jakejarvis/s3-sync-action@master
         with:
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          args: --follow-symlinks
+        env:
+          AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "us-west-1" # optional: defaults to us-east-1
+          SOURCE_DIR: bin
 
-      - name: Build
-        run: esy build
+      - name: Test
+        rn: |
+          ls bin
+          echo "hey" > bin\foo
+          ls bin
+
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "us-west-1" # optional: defaults to us-east-1
+          SOURCE_DIR: ${{ steps.print_esy_cache.outputs.esy_cache }}
+
+      - name: Test 2
+        rn: |
+          ls bin
+          echo "hey" > bin\foo
+          ls bin
+      # - uses: jakejarvis/s3-sync-action@master
+      #   with:
+      #     args: --acl public-read --follow-symlinks --delete
+      #   env:
+      #     AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: "us-west-1" # optional: defaults to us-east-1
+      #     SOURCE_DIR: ${{ steps.print_esy_cache.outputs.esy_cache }}
+      # - name: Try to restore dependencies cache on windows
+      #   if: matrix.os == 'windows-2016'
+      #   # See: https://github.com/actions/cache/issues/153
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+      #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+      #
+      # - name: Build
+      #   run: esy build
       # - name: Test
       #   run: esy test
       #
