@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: 12
       - uses: actions/checkout@v1
-      - name: Install esy
-        run: npm install -g esy
+      # - name: Install esy
+      #   run: npm install -g esy
       # - name: Install revery-packager
       #   run: npm install -g revery-packager
 
@@ -65,7 +65,7 @@ jobs:
           SOURCE_DIR: bin
 
       - name: Test
-        rn: |
+        run: |
           ls bin
           echo "hey" > bin\foo
           ls bin
@@ -81,7 +81,7 @@ jobs:
           SOURCE_DIR: ${{ steps.print_esy_cache.outputs.esy_cache }}
 
       - name: Test 2
-        rn: |
+        run: |
           ls bin
           echo "hey" > bin\foo
           ls bin
