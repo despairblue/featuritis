@@ -54,15 +54,11 @@ jobs:
       #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
       #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
 
-      - uses: jakejarvis/s3-sync-action@master
+      - uses: fixpoint/azblob-download-artifact@v3
         with:
-          args: --follow-symlinks
-        env:
-          AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "us-west-1" # optional: defaults to us-east-1
-          SOURCE_DIR: bin
+          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          path: bin
 
       - name: Test
         run: |
@@ -70,15 +66,11 @@ jobs:
           echo "hey" > bin\foo
           ls bin
 
-      - uses: jakejarvis/s3-sync-action@master
+      - uses: fixpoint/azblob-upload-artifact@v3
         with:
-          args: --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "us-west-1" # optional: defaults to us-east-1
-          SOURCE_DIR: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          path: bin
 
       - name: Test 2
         run: |
