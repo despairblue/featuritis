@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: 12
       - uses: actions/checkout@v1
-      # - name: Install esy
-      #   run: npm install -g esy
+      - name: Install esy
+        run: npm install -g esy
       # - name: Install revery-packager
       #   run: npm install -g revery-packager
 
@@ -40,52 +40,28 @@ jobs:
       #   if: matrix.os == 'windows-latest'
       #   run: npm install -g windows-build-tools
 
-      # - name: Install
-      #   run: esy install
+      - name: Install
+        run: esy install
 
-      # - name: Print esy cache
-      #   id: print_esy_cache
-      #   run: node .github/workflows/print_esy_cache.js
+      - name: Print esy cache
+        id: print_esy_cache
+        run: node .github/workflows/print_esy_cache.js
 
-      # - name: Try to restore dependencies cache
-      #   if: matrix.os != 'windows-2016'
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-      #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+      - name: Try to restore dependencies cache
+        if: matrix.os != 'windows-2016'
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
 
-      - uses: fixpoint/azblob-download-artifact@v3
+      - name: Try to restore dependencies cache on windows
+        uses: fixpoint/azblob-download-artifact@v3
+        if: matrix.os == 'windows-2016'
         with:
           connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          path: bin
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
 
-      - name: Test
-        run: |
-          ls bin
-          echo "hey" > bin\foo
-          ls bin
-
-      - uses: fixpoint/azblob-upload-artifact@v3
-        with:
-          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          path: bin
-
-      - name: Test 2
-        run: |
-          ls bin
-          echo "hey" > bin\foo
-          ls bin
-      # - uses: jakejarvis/s3-sync-action@master
-      #   with:
-      #     args: --acl public-read --follow-symlinks --delete
-      #   env:
-      #     AWS_S3_BUCKET: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: "us-west-1" # optional: defaults to us-east-1
-      #     SOURCE_DIR: ${{ steps.print_esy_cache.outputs.esy_cache }}
       # - name: Try to restore dependencies cache on windows
       #   if: matrix.os == 'windows-2016'
       #   # See: https://github.com/actions/cache/issues/153
@@ -94,8 +70,16 @@ jobs:
       #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
       #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
       #
-      # - name: Build
-      #   run: esy build
+      - name: Build
+        run: esy build
+
+      - name: Try to store dependencies cache on windows
+        uses: fixpoint/azblob-upload-artifact@v3
+        with:
+          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+      #
       # - name: Test
       #   run: esy test
       #
