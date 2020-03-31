@@ -48,37 +48,13 @@ jobs:
         run: node .github/workflows/print_esy_cache.js
 
       - name: Try to restore dependencies cache
-        if: matrix.os != 'windows-2016'
-        uses: actions/cache@v1
+        uses: actions/cache@v1.1.2
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
           key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
 
-      - name: Try to restore dependencies cache on windows
-        uses: fixpoint/azblob-download-artifact@v3
-        if: matrix.os == 'windows-2016'
-        with:
-          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-
-      # - name: Try to restore dependencies cache on windows
-      #   if: matrix.os == 'windows-2016'
-      #   # See: https://github.com/actions/cache/issues/153
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-      #     key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-      #
       - name: Build
         run: esy build
-
-      - name: Try to store dependencies cache on windows
-        uses: fixpoint/azblob-upload-artifact@v3
-        with:
-          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          name: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
       #
       # - name: Test
       #   run: esy test
