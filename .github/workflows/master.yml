@@ -1,6 +1,9 @@
-name: Pull Request
+name: Master - Release
 
-on: pull_request
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -9,16 +12,18 @@ jobs:
       # If we have many bug we can test on all plateform
       fail-fast: false
       matrix:
-        # I can't afford to build on mac os all the time...
-        os: [ubuntu-latest, windows-2016]
+        os: [ubuntu-latest, macos-latest, windows-2016]
 
     steps:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+
       - uses: actions/checkout@v1
+
       - name: Install esy
         run: npm install -g esy
+
       - name: Install revery-packager
         run: npm install -g revery-packager
 
@@ -34,10 +39,6 @@ jobs:
           brew update
           brew install cmake libtool libpng ragel tree || true
           brew upgrade cmake libtool libpng ragel tree || true
-
-      # - name: Install native dependencies on windows-2016
-      #   if: matrix.os == 'windows-2016'
-      #   run: npm install -g windows-build-tools
 
       - name: Install
         run: esy install
@@ -70,10 +71,6 @@ jobs:
 
       - name: Build docs
         run: esy doc
-      #
-      # For Debugging
-      # - name: Debugging with tmate
-      #   uses: mxschmitt/action-tmate@v2
 
       - name: Build Binary
         if: matrix.os == 'windows-2016'
