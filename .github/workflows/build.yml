@@ -36,8 +36,8 @@ jobs:
           brew install cmake libtool libpng ragel tree || true
           brew upgrade cmake libtool libpng ragel tree || true
 
-      # - name: Install native dependencies on windows-latest
-      #   if: matrix.os == 'windows-latest'
+      # - name: Install native dependencies on windows-2016
+      #   if: matrix.os == 'windows-2016'
       #   run: npm install -g windows-build-tools
 
       - name: Install
@@ -48,7 +48,15 @@ jobs:
         run: node .github/workflows/print_esy_cache.js
 
       - name: Try to restore dependencies cache
+        if: matrix.os == 'windows-2016'
         uses: despairblue/cache@v1.0.4
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
+
+      - name: Try to restore dependencies cache
+        if: matrix.os != 'windows-2016'
+        uses: actions/cache@v1
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
           key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
@@ -67,7 +75,7 @@ jobs:
       #   uses: mxschmitt/action-tmate@v2
 
       - name: Build Binary
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2016'
         run: |
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
