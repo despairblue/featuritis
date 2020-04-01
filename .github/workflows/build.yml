@@ -9,10 +9,10 @@ jobs:
       # If we have many bug we can test on all plateform
       fail-fast: false
       matrix:
-        # os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2016]
         # os: [ubuntu-latest, macos-latest]
         # os: [ubuntu-latest]
-        os: [windows-2016]
+        # os: [windows-2016]
     steps:
       - uses: actions/setup-node@v1
         with:
@@ -67,11 +67,22 @@ jobs:
       #   uses: mxschmitt/action-tmate@v2
 
       - name: Build Binary
+        if: matrix.os == 'windows-latest'
         run: |
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
           revery-packager || true
           ls _release/ || true
+
+      - name: Build Binary
+        if: matrix.os == 'macos-latest'
+        run: |
+          env MACOSX_DEPLOYMENT_TARGET="10.12" revery-packager
+
+      - name: Build Binary
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          revery-packager
 
       - name: Upload Binary
         uses: actions/upload-artifact@v1
