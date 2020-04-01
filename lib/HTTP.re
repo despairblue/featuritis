@@ -32,7 +32,11 @@ let sendQuery = (~query, ~variables, ~authToken) => {
   ];
 
   let.flatMapSome {Response.body, _} =
-    post("http://localhost:3000/api/v0.0.1/graphql", ~headers, ~body);
+    post("https://en-master.wunderflats.xyz/api/graphql", ~headers, ~body);
+  // post("https://wunderflats.com/api/graphql", ~headers, ~body);
+  // post("http://localhost:3000/api/v0.0.1/graphql", ~headers, ~body);
+  // post("http://localhost:3000/api/v0.0.1/graphql", ~headers, ~body);
+
   Some(
     body
     |> Response.Body.toString
