@@ -51,7 +51,7 @@ jobs:
         uses: despairblue/cache@v1.0.4
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
 
       - name: Build
         run: esy build
