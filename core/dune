@@ -1,0 +1,8 @@
+(library
+ (name core)
+ (flags
+  (-w -40 -w +26))
+ (preprocess
+  (pps brisk-reconciler.ppx graphql_ppx))
+ (libraries base stdio yojson console.lib lib fetch-native-lwt Revery
+   Revery.lwt))
