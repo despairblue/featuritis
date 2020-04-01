@@ -9,29 +9,51 @@
     "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": {
       "bin": [
-        "Hello"
+        "App"
       ]
     },
     "buildEnv": {
-      "ODOC_SYNTAX": "re"
+      "ODOC_SYNTAX": "re",
+      "MACOSX_DEPLOYMENT_TARGET": "10.12"
     }
   },
   "scripts": {
-    "test": "esy x Hello",
-    "doc": "esy dune build @doc"
+    "dev:watch": "watchman-make -p '**/*.re' --run 'esy build'",
+    "format": "esy dune build @fmt --auto-promote",
+    "start": "esy x App",
+    "test": "esy x App --checkhealth"
   },
   "dependencies": {
+    "@esy-ocaml/reason": "3.6.0",
+    "@opam/base": "v0.13.1",
     "@opam/dune": "*",
+    "@opam/stdio": "v0.13.0",
+    "@opam/yojson": "1.7.0",
     "@reason-native/console": "*",
     "@reason-native/pastel": "*",
-    "@esy-ocaml/reason": ">= 3.4.0 < 3.6.0",
-    "ocaml": "~4.8.1000"
+    "esy-macdylibbundler": "^0.4.5",
+    "fetch-native-lwt": "*",
+    "graphql_ppx": "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
+    "ocaml": "~4.8.1000",
+    "ocaml-syntax-shims": "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
+    "revery-graphql-hooks": "*",
+    "revery": "*"
   },
   "devDependencies": {
     "@opam/merlin": "*",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "@reason-native/rely": "*",
-    "refmterr": "*",
     "ocaml": "~4.8.1000",
-    "@opam/odoc": "*"
+    "refmterr": "*"
+  },
+  "resolutions": {
+    "@esy-ocaml/libffi": "esy-ocaml/libffi#590b041",
+    "@esy-ocaml/reason": "3.6.0",
+    "@opam/cmdliner": "1.0.2",
+    "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
+    "esy-skia": "revery-ui/esy-skia#07c13a9",
+    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#246dff4361ced8c3a3b30cae65486b643ae63b2f",
+    "revery-graphql-hooks": "despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925",
+    "revery": "github:revery-ui/revery#e3448c2"
   }
 }

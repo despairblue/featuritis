@@ -1,4 +1,8 @@
-(executable
-  (name Hello)
-  (public_name Hello)
-  (libraries console.lib lib))
+(executables
+ (names Hello App)
+ (public_names Hello App)
+ (flags -w -33)
+ (preprocess
+  (pps brisk-reconciler.ppx graphql_ppx))
+ (libraries base stdio yojson console.lib lib MyComponents fetch-native-lwt
+   Revery Revery.lwt))

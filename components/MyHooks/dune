@@ -1,0 +1,8 @@
+(library
+ (name MyHooks)
+ (public_name hello-reason.MyComponents.MyHooks)
+ (flags
+  (-w -9))
+ (preprocess
+  (pps brisk-reconciler.ppx))
+ (libraries Revery fetch-native-lwt yojson))

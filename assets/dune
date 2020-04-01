@@ -1,0 +1,4 @@
+(install
+ (section bin)
+ (package hello-reason)
+ (files Roboto-Regular.ttf Poppins-Regular.ttf))

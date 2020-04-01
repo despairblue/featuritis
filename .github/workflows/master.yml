@@ -1,0 +1,109 @@
+name: Master - Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # If we have many bug we can test on all plateform
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, self-hosted, windows-2016]
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 10.12
+      CACHE_VERSION: v4
+
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@v1
+
+      - name: Install esy
+        run: npm install -g esy@0.6.4
+
+      - name: Install revery-packager
+        run: npm install -g revery-packager
+
+      - name: Install native dependencies on ubuntu-latest
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-utils mesa-utils-extra ragel libgtk-3-dev nasm tree libjpeg62 libsdl2-2.0.0
+
+      - name: Install native dependencies on self-hosted
+        if: matrix.os == 'self-hosted'
+        run: |
+          brew update
+          brew install cmake libtool libpng ragel tree || true
+          brew upgrade cmake libtool libpng ragel tree || true
+
+      - name: Install
+        run: esy install
+
+      - name: Print esy cache
+        id: print_esy_cache
+        run: node .github/workflows/print_esy_cache.js
+
+      - name: Try to restore dependencies cache on windows-2016
+        if: matrix.os == 'windows-2016'
+        uses: despairblue/cache@v1.0.4
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
+
+      - name: Try to restore dependencies cache on ubuntu-latest
+        # broken on self-hosted
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
+
+      - name: Build
+        run: esy build
+
+      - name: Test
+        run: esy test
+
+      - name: Build Binary
+        # if: matrix.os == 'windows-2016'
+        if: false
+        run: |
+          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
+          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
+          revery-packager || true
+          ls _release/ || true
+
+      - name: Build Binary on ubuntu-latest
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          revery-packager
+
+      # broken
+      - name: Build Binary on self-hosted
+        if: matrix.os == 'self-hosted' && false
+        run: |
+          env MACOSX_DEPLOYMENT_TARGET="10.12" revery-packager
+
+      - name: Upload Binary on ubuntu-latest
+        uses: actions/upload-artifact@v1
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: linux-featuritis.AppImage
+          path: _release/ReveryApp-x86_64.AppImage
+
+      # broken
+      - name: Upload Binary on self-hosted
+        uses: actions/upload-artifact@v1
+        if: matrix.os == 'self-hosted' && false
+        with:
+          name: macosx-featuritis.dmg
+          path: _release/ReveryApp.dmg
