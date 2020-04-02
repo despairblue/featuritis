@@ -11,6 +11,8 @@ jobs:
       matrix:
         # I can't afford to build on mac os all the time...
         os: [ubuntu-latest, windows-2016]
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 10.12
 
     steps:
       - uses: actions/setup-node@v1

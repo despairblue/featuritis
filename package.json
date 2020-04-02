@@ -9,7 +9,10 @@
       "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": { "bin": [ "Hello" ] },
-    "buildEnv": { "ODOC_SYNTAX": "re" }
+    "buildEnv": {
+      "ODOC_SYNTAX": "re",
+      "MACOSX_DEPLOYMENT_TARGET": "10.12"
+    }
   },
   "scripts": {
     "start": "esy x App",
