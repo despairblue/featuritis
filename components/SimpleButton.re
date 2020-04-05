@@ -1,8 +1,20 @@
+open Stdio;
 open Revery;
 open Revery.UI;
 open Revery.UI.Components;
 
-module FeatureFlag = FeatureFlag.FeatureFlag;
+let mapValue = (~f, promise) =>
+  Lwt.map(
+    fun
+    | Some(data) => {
+        printf("Got some%!");
+        Some(f(data));
+      }
+    | None => {
+        printf("Got none%!");
+        None;
+      },
+  );
 
 module SimpleButton = {
   module Styles = {
@@ -23,135 +35,43 @@ module SimpleButton = {
 
   module State = Core.State;
 
-  let mapValue = (~f, promise) =>
-    Lwt.map(
-      fun
-      | Some(data) => {
-          Printf.printf("Got some%!");
-          Some(f(data));
-        }
-      | None => {
-          Printf.printf("Got none%!");
-          None;
-        },
-    );
-
-  let%component make = () => {
+  let%component make = (~config: Core.Config.t, ()) => {
     let%hook (state, dispatch) =
-      Hooks.reducer(~initialState=State.make(), State.reducer);
+      Hooks.reducer(
+        ~initialState=
+          State.make(~apiUrl=config.apiUrl, ~authToken=config.authToken),
+        State.reducer,
+      );
 
-    // Printf.printf("in callback, count: %i\n%!", state);
-    // Printf.printf("in callback, bodyLength: %i\n%!", bodyLength);
-    let authToken = "fba8ebc3d0827bafb46def017f9a98d7b061bed9a671ede53de69171ed6683ca29cf36cff4a7718ae6d4bc5b7e9f701d8f643cf0ff0d542aea9df4187898d9d7LhOFXNL6T";
-    let query = Core.FeatureFlags.Query.make(~type_=`ALL, ~state=`ALL, ());
-    let increment = () => {
-      Lib.HTTP.sendQuery(
-        ~query=query#query,
-        ~variables=query#variables,
-        ~authToken,
-      )
+    let ctx = Core.Context.make(state, dispatch);
+
+    let login = (~email, ~password) => {
+      printf("login\n%!");
+      Lib.HTTP.sendPost(~email, ~password)
       |> Lwt.map(
            fun
-           | Some(data) => {
-               let data = Core.FeatureFlags.Query.parse(data);
-               let ffs = data#featureFlags;
-
-               Printf.printf("Found Flags: %i\n%!", Array.length(ffs));
-
-               dispatch(ReplaceFeatureFlags(ffs));
+           | Some(authToken) => {
+               printf("authToken: %s\n%!", authToken);
+               dispatch(Login(authToken));
              }
-           | None => (),
+           | None => {
+               printf("nothing :(\n%!");
+             },
          )
       |> ignore;
     };
-    let toggle = (name, enabled) =>
-      if (enabled) {
-        dispatch(DisableFeatureFlag(name));
-        let disableFeatureFlag =
-          Core.FeatureFlags.DisableFeatureFlag.make(
-            ~type_=`ALL,
-            ~state=`ALL,
-            ~name=[|name|],
-            (),
-          );
-        Lib.HTTP.sendQuery(
-          ~query=disableFeatureFlag#query,
-          ~variables=disableFeatureFlag#variables,
-          ~authToken,
-        )
-        |> Lwt.map(
-             fun
-             | Some(data) => {
-                 let data = Core.FeatureFlags.EnableFeatureFlag.parse(data);
-                 let activateGlobalFeatureFlags =
-                   data#activateGlobalFeatureFlags;
 
-                 switch (activateGlobalFeatureFlags) {
-                 | `ActivateGlobalFeatureFlagsPayloadError(data) =>
-                   Printf.printf("Mutation failed: %s%!", data#message)
-                 | `ActivateGlobalFeatureFlagsPayloadSuccess(data) =>
-                   let featureFlags = data#featureFlags;
-                   dispatch(ReplaceFeatureFlags(featureFlags));
-                 };
-               }
-             | None => {
-                 Printf.printf("Found nothing");
-               },
-           )
-        |> ignore;
-      } else {
-        dispatch(EnableFeatureFlag(name));
-        let enableFeatureFlag =
-          Core.FeatureFlags.EnableFeatureFlag.make(
-            ~type_=`ALL,
-            ~state=`ALL,
-            ~name=[|name|],
-            (),
-          );
-        Lib.HTTP.sendQuery(
-          ~query=enableFeatureFlag#query,
-          ~variables=enableFeatureFlag#variables,
-          ~authToken,
-        )
-        |> Lwt.map(
-             fun
-             | Some(data) => {
-                 let data = Core.FeatureFlags.EnableFeatureFlag.parse(data);
-                 let activateGlobalFeatureFlags =
-                   data#activateGlobalFeatureFlags;
+    switch (state.authToken) {
+    | Some(authToken) => <FeatureFlagList authToken ctx />
 
-                 switch (activateGlobalFeatureFlags) {
-                 | `ActivateGlobalFeatureFlagsPayloadError(data) =>
-                   Printf.printf("Mutation failed: %s%!", data#message)
-                 | `ActivateGlobalFeatureFlagsPayloadSuccess(data) =>
-                   let featureFlags = data#featureFlags;
-                   dispatch(ReplaceFeatureFlags(featureFlags));
-                 };
-               }
-             | None => {
-                 Printf.printf("Found nothing");
-               },
-           )
-        |> ignore;
-      };
-
-    let children =
-      ArrayLabels.map(state.featureFlags, ~f=featureFlag => {
-        <FeatureFlag featureFlag toggle />
-      })
-      |> Array.to_list;
-
-    let text =
-      "Click me: " ++ string_of_int(state.featureFlags |> Array.length);
-    let huh =
-      React.listToElement([
-        <Padding padding=4> <Text style=Styles.text text /> </Padding>,
-        ...children,
-      ]);
-
-    <Clickable onClick=increment>
-      <View style=Styles.button />
-      huh
-    </Clickable>;
+    | None =>
+      <View>
+        <Login
+          onSubmit={(~username, ~password) =>
+            login(~email=username, ~password)
+          }
+        />
+      </View>
+    };
   };
 };

@@ -8,18 +8,16 @@
     "buildDev":
       "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
-    "release": { "bin": [ "Hello" ] },
-    "buildEnv": {
-      "ODOC_SYNTAX": "re",
-      "MACOSX_DEPLOYMENT_TARGET": "10.12"
-    }
+    "release": { "bin": [ "App" ] },
+    "buildEnv": { "ODOC_SYNTAX": "re", "MACOSX_DEPLOYMENT_TARGET": "10.12" }
   },
   "scripts": {
-    "start": "esy x App",
-    "test": "esy x App --checkhealth",
+    "dev:watch": "watchman-make -p '**/*.re' --run 'esy build'",
     "doc": "esy dune build @doc",
-    "format": "esy dune build @fmt --auto-promote"
-   },
+    "format": "esy dune build @fmt --auto-promote",
+    "start": "esy x App",
+    "test": "esy x App --checkhealth"
+  },
   "dependencies": {
     "@esy-ocaml/reason": "3.6.0",
     "@opam/base": "v0.13.1",
@@ -40,10 +38,10 @@
   },
   "devDependencies": {
     "@opam/merlin": "*",
+    "@opam/odoc": "*",
     "@reason-native/rely": "*",
-    "refmterr": "*",
     "ocaml": "~4.8.1000",
-    "@opam/odoc": "*"
+    "refmterr": "*"
   },
   "resolutions": {
     "@esy-ocaml/libffi": "esy-ocaml/libffi#c61127d",
@@ -51,6 +49,7 @@
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "esy-skia": "revery-ui/esy-skia#91b10c9",
-    "reason-skia": "revery-ui/reason-skia#642e5bdb09de460e47c16f435600842c068d6287"
+    "reason-skia":
+      "revery-ui/reason-skia#642e5bdb09de460e47c16f435600842c068d6287"
   }
 }

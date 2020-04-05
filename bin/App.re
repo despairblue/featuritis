@@ -26,13 +26,15 @@ let main = () => {
     let inner = [flexDirection(`Row), alignItems(`FlexEnd)];
   };
 
+  let config = Core.Config.readConfig();
+
   <View style=Styles.container>
     <View style=Styles.inner>
       <AnimatedText delay={Time.ms(0)} text="Welcome" />
       <AnimatedText delay={Time.ms(500)} text="to" />
       <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
     </View>
-    <SimpleButton />
+    <SimpleButton config />
   </View>;
 };
 
@@ -42,7 +44,17 @@ let init = app => {
   // Timber.App.enable();
   // Timber.App.setLevel(Timber.Level.perf);
 
-  let win = App.createWindow(app, "Welcome to Revery!");
+  let win =
+    App.createWindow(
+      app,
+      "Welcome to Revery!",
+      ~createOptions={
+        ...Revery_Core.WindowCreateOptions.default,
+        backgroundColor: Color.hex("#1f242e"),
+        width: 700,
+        height: 1500,
+      },
+    );
 
   let _ignore = Revery_Lwt.startEventLoop();
   let _ignore = UI.start(win, <main />);
