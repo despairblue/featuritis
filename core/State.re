@@ -39,7 +39,9 @@ let reducer = (action, state) => {
 
   let newState =
     switch (action) {
-    | ChangeApiUrl(apiUrl) => {...state, apiUrl}
+    | ChangeApiUrl(apiUrl) =>
+      Config.writeConfig({apiUrl, authToken: state.authToken});
+      {...state, apiUrl};
 
     | UpdateFeatureFlags(featureFlags) => {...state, featureFlags}
     | LoadFeatureFlags(dispatch) =>
@@ -194,13 +196,10 @@ let reducer = (action, state) => {
         });
       {...state, featureFlags};
 
-    | Login(authToken) => {...state, authToken: Some(authToken)}
+    | Login(authToken) =>
+      Config.writeConfig({apiUrl: state.apiUrl, authToken: Some(authToken)});
+      {...state, authToken: Some(authToken)};
     };
-
-  Config.writeConfig({
-    apiUrl: newState.apiUrl,
-    authToken: newState.authToken,
-  });
 
   newState;
 };
