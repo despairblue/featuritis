@@ -45,6 +45,7 @@ module SimpleButton = {
 
     let ctx = Core.Context.make(state, dispatch);
 
+    // TODO: move to state
     let login = (~email, ~password) => {
       printf("login\n%!");
       Lib.HTTP.sendPost(~email, ~password)
