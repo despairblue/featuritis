@@ -5,11 +5,17 @@
   "license": "MIT",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev":
-      "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
+    "buildDev": "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
     "NOTE": "Optional release Section. Customizes result of `esy release`",
-    "release": { "bin": [ "App" ] },
-    "buildEnv": { "ODOC_SYNTAX": "re", "MACOSX_DEPLOYMENT_TARGET": "10.12" }
+    "release": {
+      "bin": [
+        "App"
+      ]
+    },
+    "buildEnv": {
+      "ODOC_SYNTAX": "re",
+      "MACOSX_DEPLOYMENT_TARGET": "10.12"
+    }
   },
   "scripts": {
     "dev:watch": "watchman-make -p '**/*.re' --run 'esy build'",
@@ -27,17 +33,16 @@
     "@reason-native/console": "*",
     "@reason-native/pastel": "*",
     "esy-macdylibbundler": "^0.4.5",
-    "fetch-native-lwt":
-      "lessp/fetch:fetch-native-lwt.json#0774bc989493f78f87e1689731f41f2a83ea0b78",
-    "graphql_ppx":
-      "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
+    "fetch-native-lwt": "*",
+    "graphql_ppx": "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
     "ocaml": "~4.8.1000",
-    "ocaml-syntax-shims":
-      "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
-    "revery": "github:revery-ui/revery#e3448c2"
+    "ocaml-syntax-shims": "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
+    "revery-graphql-hooks": "lessp/revery-graphql-hooks",
+    "revery": "*"
   },
   "devDependencies": {
     "@opam/merlin": "*",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "@opam/odoc": "*",
     "@reason-native/rely": "*",
     "ocaml": "~4.8.1000",
@@ -48,6 +53,9 @@
     "@esy-ocaml/reason": "3.6.0",
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
-    "esy-skia": "revery-ui/esy-skia#07c13a9"
+    "esy-skia": "revery-ui/esy-skia#07c13a9",
+    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#6256b9d43f99476d9184957ab6286568822e9b5d",
+    "revery-graphql-hooks": "link:../revery-graphql-hooks/package.json",
+    "revery": "github:revery-ui/revery#e3448c2"
   }
 }

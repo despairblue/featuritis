@@ -19,8 +19,14 @@ module Styles = {
 
   let inner = [
     flexDirection(`Row),
-    alignItems(`FlexEnd),
-    marginHorizontal(50),
+    alignItems(`Center),
+    justifyContent(`SpaceBetween),
+  ];
+
+  let checkboxStyle = [
+    width(25),
+    height(25),
+    border(~width=2, ~color=Colors.dodgerBlue),
   ];
 };
 
@@ -28,6 +34,7 @@ let make = (~featureFlag: Core.FeatureFlags.featureFlags, ~toggle, ()) => {
   <View style=Styles.inner>
     <Text style=Styles.text text={featureFlag.name} />
     <Checkbox
+      style=Styles.checkboxStyle
       checked={featureFlag.enabled}
       onChange={_ => toggle(featureFlag.name, featureFlag.enabled)}
     />

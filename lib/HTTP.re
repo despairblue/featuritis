@@ -39,7 +39,7 @@ let sendQuery = (~query, ~variables, ~authToken, ~apiUrl) => {
 
   Some(
     body
-    |> Response.Body.toString
+    |> Body.toString
     |> Yojson.Basic.from_string
     |> Yojson.Basic.Util.member("data"),
   );
@@ -64,13 +64,13 @@ let sendPost = (~email, ~password) => {
   let api_url = "https://en-master.wunderflats.xyz/api/auth/login";
   let.flatMapSome {Response.body, _} = post(api_url, ~headers, ~body);
 
-  let foo = body |> Response.Body.toString;
+  let foo = body |> Body.toString;
 
   printf("%s\n%!", foo);
 
   Some(
     body
-    |> Response.Body.toString
+    |> Body.toString
     |> Yojson.Basic.from_string
     |> Yojson.Basic.Util.member("authToken")
     |> Yojson.Basic.Util.to_string,

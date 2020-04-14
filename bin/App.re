@@ -17,10 +17,10 @@ let main = () => {
       position(`Absolute),
       justifyContent(`Center),
       alignItems(`Center),
-      bottom(0),
-      top(0),
-      left(0),
-      right(0),
+      bottom(10),
+      top(20),
+      left(10),
+      right(10),
     ];
 
     let inner = [flexDirection(`Row), alignItems(`FlexEnd)];
@@ -34,6 +34,7 @@ let main = () => {
       <AnimatedText delay={Time.ms(500)} text="to" />
       <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
     </View>
+    // <MyComponents.GraphqlHookTest config />
     <SimpleButton config />
   </View>;
 };
@@ -51,11 +52,12 @@ let init = app => {
       ~createOptions={
         ...Revery_Core.WindowCreateOptions.default,
         backgroundColor: Color.hex("#1f242e"),
-        width: 700,
-        height: 1500,
+        width: 1000,
+        height: 2000,
       },
     );
 
+  Printf.printf("Starting Event Loop\n%!");
   let _ignore = Revery_Lwt.startEventLoop();
   let _ignore = UI.start(win, <main />);
   ();

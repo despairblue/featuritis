@@ -62,8 +62,8 @@ module SimpleButton = {
       |> ignore;
     };
 
-    switch (state.authToken) {
-    | Some(authToken) => <FeatureFlagList authToken ctx />
+    switch (state.graphQLConfig) {
+    | Some(graphQLConfig) => <FeatureFlagList graphQLConfig ctx />
 
     | None =>
       <View>

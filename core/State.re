@@ -6,14 +6,36 @@ open Lib;
 type t = {
   apiUrl: string,
   authToken: option(string),
+  graphQLConfig: option(ReveryGraphqlHooks.config),
   featureFlags: Request.t(array(featureFlags)),
+};
+
+let makeGraphqlConfig = (~baseUrl, ~authToken): ReveryGraphqlHooks.config => {
+  baseUrl,
+  headers: [("authToken", authToken)],
+};
+
+let addGraphqlConfig = (state: t): t => {
+  {
+    ...state,
+    graphQLConfig:
+      Option.map(state.authToken, ~f=authToken =>
+        makeGraphqlConfig(~baseUrl=state.apiUrl, ~authToken)
+      ),
+  };
 };
 
 let make =
     (~apiUrl="https://en-master.wunderflats.xyz/api/graphql", ~authToken=None) => {
-  apiUrl,
-  authToken,
-  featureFlags: Idle,
+  {
+    apiUrl,
+    authToken,
+    featureFlags: Idle,
+    graphQLConfig:
+      Option.map(authToken, ~f=authToken =>
+        makeGraphqlConfig(~baseUrl=apiUrl, ~authToken)
+      ),
+  };
 };
 
 type action =
@@ -98,6 +120,7 @@ let reducer = (action, state) => {
                 ~name=[|name|],
                 (),
               );
+
             HTTP.sendQuery(
               ~apiUrl=state.apiUrl,
               ~query=mutation#query,
@@ -201,5 +224,5 @@ let reducer = (action, state) => {
       {...state, authToken: Some(authToken)};
     };
 
-  newState;
+  newState |> addGraphqlConfig;
 };

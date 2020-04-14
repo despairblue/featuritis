@@ -24,14 +24,25 @@ module Styles = {
 module ApiUrlInput = {
   open Core;
 
+  module Styles = {
+    open Style;
+
+    let container = [flexDirection(`Row), justifyContent(`SpaceBetween)];
+  };
+
   let%component make = (~ctx: Context.t, ~onSubmit, ()) => {
     let%hook (url, setValue) = Hooks.state(ctx.state.apiUrl);
 
     printf("url: %s\n%!", url);
 
-    <View style=[]>
+    <View style=Styles.container>
       <Input2
-        style=[]
+        style=Style.[
+          flexGrow(2),
+          width(500),
+          color(Colors.white),
+          border(~width=1, ~color=Colors.white),
+        ]
         placeholder="API URL"
         value=url
         onChange={(value, _) => setValue(state => value)}
@@ -50,8 +61,14 @@ module ApiUrlInput = {
   };
 };
 
-let make = (~authToken, ~ctx: Core.Context.t, ()) => {
+let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
   let Core.Context.{state, dispatch} = ctx;
+  let variables =
+    `Assoc([("type_", `String("ALL")), ("state", `String("ALL"))]);
+  let%hook flags =
+    Core.FeatureFlags.QueryHook.use(~config=graphQLConfig, ~variables, ());
+
+  printf("render FeatureFlagList\n%!");
 
   let loadFeatureFlags = () => {
     dispatch(LoadFeatureFlags(dispatch));
@@ -64,26 +81,24 @@ let make = (~authToken, ~ctx: Core.Context.t, ()) => {
     };
 
   let featureFlags =
-    switch (state.featureFlags) {
+    switch (flags) {
     | Idle => <Text style=Styles.text text="Nothing Loaded Yet" />
     | Loading => <Text style=Styles.text text="Loading..." />
-    | Error(error) =>
-      <Text style=Styles.text text={Printf.sprintf("Error: %s", error)} />
-    | Data(featureFlags) =>
-      <View>
-        <Padding padding=4>
-          <Text
-            style=Styles.text
-            text={Printf.sprintf("Total: %i", Array.length(featureFlags))}
-          />
-        </Padding>
+    | Error => <Text style=Styles.text text={Printf.sprintf("Error: ")} />
+    | Data(query) =>
+      let featureFlags = query#featureFlags;
+      <ScrollView style=[] bounce=true>
+        <Text
+          style=Styles.text
+          text={Printf.sprintf("Total: %i", Array.length(featureFlags))}
+        />
         {featureFlags
          |> ArrayLabels.map(~f=featureFlag => {
               <FeatureFlag featureFlag toggle />
             })
          |> ArrayLabels.to_list
          |> React.listToElement}
-      </View>
+      </ScrollView>;
     };
 
   <View>
