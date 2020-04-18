@@ -14,13 +14,9 @@ let main = () => {
     open Style;
 
     let container = [
-      position(`Absolute),
+      flexDirection(`Column),
       justifyContent(`Center),
       alignItems(`Center),
-      bottom(10),
-      top(20),
-      left(10),
-      right(10),
     ];
 
     let inner = [flexDirection(`Row), alignItems(`FlexEnd)];
@@ -28,11 +24,20 @@ let main = () => {
 
   let config = Core.Config.readConfig();
 
-  <View style=Styles.container>
-    <View style=Styles.inner>
-      <AnimatedText delay={Time.ms(0)} text="Welcome" />
-      <AnimatedText delay={Time.ms(500)} text="to" />
-      <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
+  <View
+    style=Style.[
+      flexDirection(`Column),
+      flexGrow(1),
+      alignItems(`Stretch),
+      alignSelf(`Stretch),
+      padding(20),
+    ]>
+    <View style=Styles.container>
+      <View style=Styles.inner>
+        <AnimatedText delay={Time.ms(0)} text="Welcome" />
+        <AnimatedText delay={Time.ms(500)} text="to" />
+        <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
+      </View>
     </View>
     // <MyComponents.GraphqlHookTest config />
     <SimpleButton config />

@@ -27,7 +27,13 @@ module ApiUrlInput = {
   module Styles = {
     open Style;
 
-    let container = [flexDirection(`Row), justifyContent(`SpaceBetween)];
+    let input = [
+      width(500),
+      color(Colors.white),
+      border(~width=1, ~color=Colors.white),
+    ];
+    // TODO: fork Button
+    let button = [];
   };
 
   let%component make = (~ctx: Context.t, ~onSubmit, ()) => {
@@ -35,38 +41,77 @@ module ApiUrlInput = {
 
     printf("url: %s\n%!", url);
 
-    <View style=Styles.container>
-      <Input2
-        style=Style.[
-          flexGrow(2),
-          width(500),
-          color(Colors.white),
-          border(~width=1, ~color=Colors.white),
-        ]
-        placeholder="API URL"
-        value=url
-        onChange={(value, _) => setValue(state => value)}
-      />
-      <Button
-        height=50
-        width=100
-        fontSize=15.
-        title="Submit"
-        onClick={() => {
-          printf("onClick\n%!");
-          onSubmit(url);
-        }}
-      />
-    </View>;
+    <MyRow>
+      <MyContainer>
+        <Input2
+          style=Styles.input
+          placeholder="API URL"
+          value=url
+          onChange={(value, _) => setValue(state => value)}
+        />
+      </MyContainer>
+      <MyContainer style=Style.[flexGrow(0)]>
+        <Button
+          height=50
+          width=100
+          fontSize=15.
+          title="Submit"
+          onClick={() => {
+            printf("onClick\n%!");
+            onSubmit(url);
+          }}
+        />
+      </MyContainer>
+    </MyRow>;
   };
 };
 
+let renderFeatureFlags = (featureFlags, toggle) => {
+  module Styles = {
+    open Style;
+
+    let scrollview = [flexGrow(1)];
+  };
+
+  let featureFlagList =
+    featureFlags
+    |> ArrayLabels.map(~f=featureFlag => {<FeatureFlag featureFlag toggle />})
+    |> ArrayLabels.to_list
+    |> React.listToElement;
+
+  <MyContainer>
+    <ScrollView style=Styles.scrollview bounce=false>
+      featureFlagList
+    </ScrollView>
+  </MyContainer>;
+};
+
 let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
+  module Styles = {
+    open Style;
+
+    let container = [flexGrow(1)];
+
+    let text = [
+      color(Colors.white),
+      fontFamily("Roboto-Regular.ttf"),
+      fontSize(20.),
+    ];
+  };
+
   let Core.Context.{state, dispatch} = ctx;
   let variables =
     `Assoc([("type_", `String("ALL")), ("state", `String("ALL"))]);
+  // let%hook flags =
+  //   Core.FeatureFlags.QueryHook.use(~config=graphQLConfig, ~variables, ());
+
   let%hook flags =
-    Core.FeatureFlags.QueryHook.use(~config=graphQLConfig, ~variables, ());
+    Core.FeatureFlags.Graphql.newQuery(
+      ~config=graphQLConfig,
+      ~definition=Core.FeatureFlags.Query.definition,
+      ~variables,
+      (),
+    );
 
   printf("render FeatureFlagList\n%!");
 
@@ -85,31 +130,26 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
     | Idle => <Text style=Styles.text text="Nothing Loaded Yet" />
     | Loading => <Text style=Styles.text text="Loading..." />
     | Error => <Text style=Styles.text text={Printf.sprintf("Error: ")} />
-    | Data(query) =>
-      let featureFlags = query#featureFlags;
-      <ScrollView style=[] bounce=true>
-        <Text
-          style=Styles.text
-          text={Printf.sprintf("Total: %i", Array.length(featureFlags))}
-        />
-        {featureFlags
-         |> ArrayLabels.map(~f=featureFlag => {
-              <FeatureFlag featureFlag toggle />
-            })
-         |> ArrayLabels.to_list
-         |> React.listToElement}
-      </ScrollView>;
+    | Data(query) => renderFeatureFlags(query#featureFlags, toggle)
     };
 
-  <View>
+  let reloadButtonAndTotal =
+    <MyRow style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
+      <Button
+        height=50
+        width=200
+        fontSize=15.
+        title="Reload Feature Flags"
+        onClick=loadFeatureFlags
+      />
+      <Text
+        style=Styles.text
+        text={Printf.sprintf("Total: %i", Array.length([||]))}
+      />
+    </MyRow>;
+
+  <MyContainer>
     <ApiUrlInput ctx onSubmit={url => dispatch(ChangeApiUrl(url))} />
-    <Button
-      height=50
-      width=200
-      fontSize=15.
-      title="Load Feature Flags"
-      onClick=loadFeatureFlags
-    />
-    featureFlags
-  </View>;
+    <MyContainer> reloadButtonAndTotal featureFlags </MyContainer>
+  </MyContainer>;
 };
