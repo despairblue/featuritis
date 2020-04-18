@@ -6,8 +6,9 @@ open Lib;
 type t = {
   apiUrl: string,
   authToken: option(string),
-  graphQLConfig: option(ReveryGraphqlHooks.config),
+  debug: bool,
   featureFlags: Request.t(array(featureFlags)),
+  graphQLConfig: option(ReveryGraphqlHooks.config),
 };
 
 let makeGraphqlConfig = (~baseUrl, ~authToken): ReveryGraphqlHooks.config => {
@@ -30,6 +31,7 @@ let make =
   {
     apiUrl,
     authToken,
+    debug: false,
     featureFlags: Idle,
     graphQLConfig:
       Option.map(authToken, ~f=authToken =>
@@ -40,21 +42,23 @@ let make =
 
 type action =
   | ChangeApiUrl(string)
-  | LoadFeatureFlags(action => unit)
-  | UpdateFeatureFlags(Request.t(array(featureFlags)))
-  | EnableFeatureFlag(action => unit, string)
   | DisableFeatureFlag(action => unit, string)
-  | Login(string);
+  | EnableFeatureFlag(action => unit, string)
+  | LoadFeatureFlags(action => unit)
+  | Login(string)
+  | ToggleDebug
+  | UpdateFeatureFlags(Request.t(array(featureFlags)));
 
 let stringOfAction =
   fun
   | ChangeApiUrl(url) => "ChangeApiUrl: " ++ url
-  | LoadFeatureFlags(_) => "LoadFeatureFlags"
-  | UpdateFeatureFlags(requestState) =>
-    "UpdateFeatureFlags: " ++ Request.stringOfRequestState(requestState)
-  | EnableFeatureFlag(_) => "EnableFeatureFlag"
   | DisableFeatureFlag(_) => "DisableFeatureFlag"
-  | Login(_) => "Login";
+  | EnableFeatureFlag(_) => "EnableFeatureFlag"
+  | LoadFeatureFlags(_) => "LoadFeatureFlags"
+  | Login(_) => "Login"
+  | ToggleDebug => "ToggleDebug"
+  | UpdateFeatureFlags(requestState) =>
+    "UpdateFeatureFlags: " ++ Request.stringOfRequestState(requestState);
 
 let reducer = (action, state) => {
   printf("Action: %s \n%!", stringOfAction(action));
@@ -218,6 +222,8 @@ let reducer = (action, state) => {
           )
         });
       {...state, featureFlags};
+
+    | ToggleDebug => {...state, debug: state.debug ? false : true}
 
     | Login(authToken) =>
       Config.writeConfig({apiUrl: state.apiUrl, authToken: Some(authToken)});

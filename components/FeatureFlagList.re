@@ -36,13 +36,13 @@ module ApiUrlInput = {
     let button = [];
   };
 
-  let%component make = (~ctx: Context.t, ~onSubmit, ()) => {
+  let%component make = (~debug=false, ~ctx: Context.t, ~onSubmit, ()) => {
     let%hook (url, setValue) = Hooks.state(ctx.state.apiUrl);
 
     printf("url: %s\n%!", url);
 
-    <MyRow>
-      <MyContainer>
+    <MyRow debug>
+      <MyContainer debug>
         <Input2
           style=Styles.input
           placeholder="API URL"
@@ -50,7 +50,7 @@ module ApiUrlInput = {
           onChange={(value, _) => setValue(state => value)}
         />
       </MyContainer>
-      <MyContainer style=Style.[flexGrow(0)]>
+      <MyContainer debug style=Style.[flexGrow(0)]>
         <Button
           height=50
           width=100
@@ -66,7 +66,7 @@ module ApiUrlInput = {
   };
 };
 
-let renderFeatureFlags = (featureFlags, toggle) => {
+let renderFeatureFlags = (~debug=false, featureFlags, toggle) => {
   module Styles = {
     open Style;
 
@@ -75,11 +75,13 @@ let renderFeatureFlags = (featureFlags, toggle) => {
 
   let featureFlagList =
     featureFlags
-    |> ArrayLabels.map(~f=featureFlag => {<FeatureFlag featureFlag toggle />})
+    |> ArrayLabels.map(~f=featureFlag => {
+         <FeatureFlag debug featureFlag toggle />
+       })
     |> ArrayLabels.to_list
     |> React.listToElement;
 
-  <MyContainer>
+  <MyContainer debug>
     <ScrollView style=Styles.scrollview bounce=false>
       featureFlagList
     </ScrollView>
@@ -100,6 +102,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
   };
 
   let Core.Context.{state, dispatch} = ctx;
+  let debug = state.debug;
   let variables =
     `Assoc([("type_", `String("ALL")), ("state", `String("ALL"))]);
   // let%hook flags =
@@ -130,11 +133,12 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
     | Idle => <Text style=Styles.text text="Nothing Loaded Yet" />
     | Loading => <Text style=Styles.text text="Loading..." />
     | Error => <Text style=Styles.text text={Printf.sprintf("Error: ")} />
-    | Data(query) => renderFeatureFlags(query#featureFlags, toggle)
+    | Data(query) => renderFeatureFlags(~debug, query#featureFlags, toggle)
     };
 
   let reloadButtonAndTotal =
-    <MyRow style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
+    <MyRow
+      debug style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
       <Button
         height=50
         width=200
@@ -146,10 +150,17 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
         style=Styles.text
         text={Printf.sprintf("Total: %i", Array.length([||]))}
       />
+      <Button
+        height=50
+        width=200
+        fontSize=15.
+        title={ctx.state.debug ? "Disable Debug Mode" : "Enable Debug Mode"}
+        onClick={() => dispatch(ToggleDebug)}
+      />
     </MyRow>;
 
-  <MyContainer>
-    <ApiUrlInput ctx onSubmit={url => dispatch(ChangeApiUrl(url))} />
-    <MyContainer> reloadButtonAndTotal featureFlags </MyContainer>
+  <MyContainer debug>
+    <ApiUrlInput debug ctx onSubmit={url => dispatch(ChangeApiUrl(url))} />
+    <MyContainer debug> reloadButtonAndTotal featureFlags </MyContainer>
   </MyContainer>;
 };

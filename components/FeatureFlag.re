@@ -5,7 +5,7 @@ open Revery.UI.Components;
 module Styles = {
   open Style;
 
-  let row = [height(50), alignItems(`Center)];
+  let row = [alignItems(`Center)];
 
   let text = [
     color(Colors.white),
@@ -20,8 +20,9 @@ module Styles = {
   ];
 };
 
-let make = (~featureFlag: Core.FeatureFlags.featureFlags, ~toggle, ()) => {
-  <MyRow style=Styles.row>
+let make =
+    (~debug=false, ~featureFlag: Core.FeatureFlags.featureFlags, ~toggle, ()) => {
+  <MyRow debug style=Styles.row>
     <Text style=Styles.text text={featureFlag.name} />
     <Checkbox
       style=Styles.checkboxStyle
