@@ -34,7 +34,7 @@
     "ocaml": "~4.8.1000",
     "ocaml-syntax-shims":
       "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
-    "revery": "github:revery-ui/revery#1196f1b"
+    "revery": "github:revery-ui/revery#e3448c2"
   },
   "devDependencies": {
     "@opam/merlin": "*",
@@ -44,12 +44,10 @@
     "refmterr": "*"
   },
   "resolutions": {
-    "@esy-ocaml/libffi": "esy-ocaml/libffi#c61127d",
+    "@esy-ocaml/libffi": "esy-ocaml/libffi#590b041",
     "@esy-ocaml/reason": "3.6.0",
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
-    "esy-skia": "revery-ui/esy-skia#91b10c9",
-    "reason-skia":
-      "revery-ui/reason-skia#642e5bdb09de460e47c16f435600842c068d6287"
+    "esy-skia": "revery-ui/esy-skia#07c13a9"
   }
 }

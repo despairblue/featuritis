@@ -9,18 +9,21 @@ jobs:
       # If we have many bug we can test on all plateform
       fail-fast: false
       matrix:
-        # I can't afford to build on mac os all the time...
-        os: [ubuntu-latest, windows-2016]
+        os: [ubuntu-latest, self-hosted, windows-2016]
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.12
+      CACHE_VERSION: v3
 
     steps:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+
       - uses: actions/checkout@v1
+
       - name: Install esy
         run: npm install -g esy
+
       - name: Install revery-packager
         run: npm install -g revery-packager
 
@@ -31,7 +34,7 @@ jobs:
           sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev mesa-utils mesa-utils-extra ragel libgtk-3-dev nasm tree libjpeg62 libsdl2-2.0.0
 
       - name: Install native dependencies on macos-latest
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'self-hosted'
         run: |
           brew update
           brew install cmake libtool libpng ragel tree || true
@@ -40,6 +43,10 @@ jobs:
       # - name: Install native dependencies on windows-2016
       #   if: matrix.os == 'windows-2016'
       #   run: npm install -g windows-build-tools
+
+      # For Debugging
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v2
 
       - name: Install
         run: esy install
@@ -53,16 +60,16 @@ jobs:
         uses: despairblue/cache@v1.0.4
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
-          restore-keys: ${{ matrix.os }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
       - name: Try to restore dependencies cache
         if: matrix.os != 'windows-2016'
         uses: actions/cache@v1
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
-          restore-keys: ${{ matrix.os }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
       - name: Build
         run: esy build
@@ -86,7 +93,7 @@ jobs:
           ls _release/ || true
 
       - name: Build Binary
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'self-hosted'
         run: |
           env MACOSX_DEPLOYMENT_TARGET="10.12" revery-packager
 
@@ -104,7 +111,7 @@ jobs:
 
       - name: Upload Binary
         uses: actions/upload-artifact@v1
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'self-hosted'
         with:
           name: macosx-featuritis.dmg
           path: _release/ReveryApp.dmg
