@@ -9,8 +9,8 @@ let rowStyle = Style.[flexDirection(`Row)];
 let debugStyle =
   Style.[
     padding(20),
-    backgroundColor(Colors.gold),
-    border(~width=2, ~color=Colors.crimson),
+    backgroundColor(Colors.white),
+    border(~width=2, ~color=Colors.black),
   ];
 
 let make =

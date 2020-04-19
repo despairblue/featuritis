@@ -66,7 +66,8 @@ module ApiUrlInput = {
   };
 };
 
-let renderFeatureFlags = (~debug=false, featureFlags, toggle) => {
+let renderFeatureFlags =
+    (~debug=false, ~graphQLConfig, ~ctx: Core.Context.t, featureFlags) => {
   module Styles = {
     open Style;
 
@@ -76,7 +77,7 @@ let renderFeatureFlags = (~debug=false, featureFlags, toggle) => {
   let featureFlagList =
     featureFlags
     |> ArrayLabels.map(~f=featureFlag => {
-         <FeatureFlag debug featureFlag toggle />
+         <FeatureFlag debug graphQLConfig ctx featureFlag />
        })
     |> ArrayLabels.to_list
     |> React.listToElement;
@@ -109,31 +110,29 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
   //   Core.FeatureFlags.QueryHook.use(~config=graphQLConfig, ~variables, ());
 
   let%hook flags =
-    Core.FeatureFlags.Graphql.newQuery(
+    ReveryGraphqlHooks.useQuery(
       ~config=graphQLConfig,
       ~definition=Core.FeatureFlags.Query.definition,
+      ~onCompleted=
+        result => {
+          switch (result) {
+          | Ok(data) => dispatch(UpdateFeatureFlags(data#featureFlags))
+          | Error(_error) => Printf.printf("Mutation failed")
+          }
+        },
       ~variables,
       (),
     );
 
   printf("render FeatureFlagList\n%!");
 
-  let loadFeatureFlags = () => {
-    dispatch(LoadFeatureFlags(dispatch));
-  };
-  let toggle = (name, enabled) =>
-    if (enabled) {
-      dispatch(DisableFeatureFlag(dispatch, name));
-    } else {
-      dispatch(EnableFeatureFlag(dispatch, name));
-    };
-
   let featureFlags =
     switch (flags) {
     | Idle => <Text style=Styles.text text="Nothing Loaded Yet" />
     | Loading => <Text style=Styles.text text="Loading..." />
     | Error => <Text style=Styles.text text={Printf.sprintf("Error: ")} />
-    | Data(query) => renderFeatureFlags(~debug, query#featureFlags, toggle)
+    | Data(_query) =>
+      renderFeatureFlags(~debug, ~graphQLConfig, ~ctx, state.featureFlags)
     };
 
   let reloadButtonAndTotal =
@@ -144,7 +143,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
         width=200
         fontSize=15.
         title="Reload Feature Flags"
-        onClick=loadFeatureFlags
+        // onClick=loadFeatureFlags
       />
       <Text
         style=Styles.text

@@ -37,7 +37,7 @@
     "graphql_ppx": "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
     "ocaml": "~4.8.1000",
     "ocaml-syntax-shims": "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
-    "revery-graphql-hooks": "lessp/revery-graphql-hooks",
+    "revery-graphql-hooks": "*",
     "revery": "*"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "esy-skia": "revery-ui/esy-skia#07c13a9",
     "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#6256b9d43f99476d9184957ab6286568822e9b5d",
-    "revery-graphql-hooks": "link:../revery-graphql-hooks/package.json",
+    "revery-graphql-hooks": "despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925",
     "revery": "github:revery-ui/revery#e3448c2"
   }
 }

@@ -39,7 +39,7 @@ module SimpleButton = {
     let%hook (state, dispatch) =
       Hooks.reducer(
         ~initialState=
-          State.make(~apiUrl=config.apiUrl, ~authToken=config.authToken),
+          State.make(~apiUrl=config.apiUrl, ~authToken=config.authToken, ()),
         State.reducer,
       );
 

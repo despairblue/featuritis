@@ -7,8 +7,8 @@ let defaultStyle = Style.[flexGrow(1)];
 let debugStyle =
   Style.[
     padding(20),
-    backgroundColor(Colors.gold),
-    border(~width=2, ~color=Colors.crimson),
+    backgroundColor(Colors.white),
+    border(~width=2, ~color=Colors.black),
   ];
 
 let make =
