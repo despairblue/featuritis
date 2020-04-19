@@ -15,6 +15,7 @@ jobs:
         os: [ubuntu-latest, self-hosted, windows-2016]
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.12
+      CACHE_VERSION: v3
 
     steps:
       - uses: actions/setup-node@v1
@@ -54,16 +55,16 @@ jobs:
         uses: despairblue/cache@v1.0.4
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
-          restore-keys: ${{ matrix.os }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
       - name: Try to restore dependencies cache
         if: matrix.os != 'windows-2016'
         uses: actions/cache@v1
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-v2
-          restore-keys: ${{ matrix.os }}
+          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
+          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
       - name: Build
         run: esy build
