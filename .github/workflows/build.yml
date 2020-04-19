@@ -44,6 +44,10 @@ jobs:
       #   if: matrix.os == 'windows-2016'
       #   run: npm install -g windows-build-tools
 
+      # For Debugging
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v2
+
       - name: Install
         run: esy install
 
