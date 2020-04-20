@@ -1,3 +1,4 @@
+open Core;
 open Revery;
 open Revery.UI;
 open Revery.UI.Components;
@@ -8,7 +9,7 @@ module AnimatedText = {
 
     let text = (~yOffset) => [
       color(Colors.white),
-      fontFamily("Poppins-Regular.ttf"),
+      fontFamily(Constants.fontFamily),
       fontSize(24.),
       transform([Transform.TranslateY(yOffset)]),
     ];

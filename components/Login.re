@@ -1,4 +1,5 @@
 open Stdio;
+open Core;
 open Revery;
 open Revery.UI;
 open Revery.UI.Components;
@@ -8,7 +9,7 @@ module Styles = {
 
   let text = [
     color(Colors.white),
-    fontFamily("Poppins-Regular.ttf"),
+    fontFamily(Constants.fontFamily),
     fontSize(20.),
   ];
 };
