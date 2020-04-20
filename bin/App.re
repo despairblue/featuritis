@@ -14,13 +14,9 @@ let main = () => {
     open Style;
 
     let container = [
-      position(`Absolute),
+      flexDirection(`Column),
       justifyContent(`Center),
       alignItems(`Center),
-      bottom(0),
-      top(0),
-      left(0),
-      right(0),
     ];
 
     let inner = [flexDirection(`Row), alignItems(`FlexEnd)];
@@ -28,12 +24,22 @@ let main = () => {
 
   let config = Core.Config.readConfig();
 
-  <View style=Styles.container>
-    <View style=Styles.inner>
-      <AnimatedText delay={Time.ms(0)} text="Welcome" />
-      <AnimatedText delay={Time.ms(500)} text="to" />
-      <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
+  <View
+    style=Style.[
+      flexDirection(`Column),
+      flexGrow(1),
+      alignItems(`Stretch),
+      alignSelf(`Stretch),
+      padding(20),
+    ]>
+    <View style=Styles.container>
+      <View style=Styles.inner>
+        <AnimatedText delay={Time.ms(0)} text="Welcome" />
+        <AnimatedText delay={Time.ms(500)} text="to" />
+        <AnimatedText delay={Time.ms(1000)} text="Featuritis" />
+      </View>
     </View>
+    // <MyComponents.GraphqlHookTest config />
     <SimpleButton config />
   </View>;
 };
@@ -51,11 +57,12 @@ let init = app => {
       ~createOptions={
         ...Revery_Core.WindowCreateOptions.default,
         backgroundColor: Color.hex("#1f242e"),
-        width: 700,
-        height: 1500,
+        width: 1000,
+        height: 2000,
       },
     );
 
+  Printf.printf("Starting Event Loop\n%!");
   let _ignore = Revery_Lwt.startEventLoop();
   let _ignore = UI.start(win, <main />);
   ();

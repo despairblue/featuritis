@@ -51,6 +51,7 @@ let getFeatureFlags = () => {
                // );
                let ffs =
                  body
+                 |> Body.toString
                  |> Yojson.Basic.from_string
                  |> Yojson.Basic.Util.member("data")
                  |> FeatureFlags.parse

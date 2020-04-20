@@ -39,7 +39,7 @@ module SimpleButton = {
     let%hook (state, dispatch) =
       Hooks.reducer(
         ~initialState=
-          State.make(~apiUrl=config.apiUrl, ~authToken=config.authToken),
+          State.make(~apiUrl=config.apiUrl, ~authToken=config.authToken, ()),
         State.reducer,
       );
 
@@ -62,8 +62,8 @@ module SimpleButton = {
       |> ignore;
     };
 
-    switch (state.authToken) {
-    | Some(authToken) => <FeatureFlagList authToken ctx />
+    switch (state.graphQLConfig) {
+    | Some(graphQLConfig) => <FeatureFlagList graphQLConfig ctx />
 
     | None =>
       <View>
