@@ -16,7 +16,7 @@ module Styles = {
 
   let text = [
     color(Colors.white),
-    fontFamily("Roboto-Regular.ttf"),
+    fontFamily("Poppins-Regular.ttf"),
     fontSize(20.),
   ];
 };
@@ -97,7 +97,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
 
     let text = [
       color(Colors.white),
-      fontFamily("Roboto-Regular.ttf"),
+      fontFamily("Poppins-Regular.ttf"),
       fontSize(20.),
     ];
   };

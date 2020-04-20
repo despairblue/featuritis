@@ -28,7 +28,7 @@ module SimpleButton = {
 
     let text = [
       color(Colors.white),
-      fontFamily("Roboto-Regular.ttf"),
+      fontFamily("Poppins-Regular.ttf"),
       fontSize(20.),
     ];
   };
