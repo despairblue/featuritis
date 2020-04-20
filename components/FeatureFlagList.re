@@ -140,7 +140,6 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
     <MyRow
       debug style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
       <MyButton
-        height=50
         width=200
         fontSize=15.
         title="Reload Feature Flags"
@@ -153,14 +152,12 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
       <MyRow debug style=Style.[alignSelf(`FlexEnd)]>
         <MyButton
           color=Colors.crimson
-          height=50
           width=100
           fontSize=15.
           title="Logout"
           onClick={() => dispatch(Logout)}
         />
         <MyButton
-          height=50
           width=200
           fontSize=15.
           title={ctx.state.debug ? "Disable Debug Mode" : "Enable Debug Mode"}

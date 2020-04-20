@@ -39,14 +39,12 @@ module Example = {
           value=first
         />
         <MyButton
-          height=50
           width=100
           fontSize=15.
           title="Reset"
           onClick={() => setValue(state => {...state, first: ""})}
         />
         <MyButton
-          height=50
           width=100
           fontSize=15.
           title="Set value"
