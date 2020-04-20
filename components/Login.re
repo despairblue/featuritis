@@ -25,14 +25,14 @@ let%component make = (~onSubmit, ()) => {
 
   <View style=[]>
     <Text style=Styles.text text="Username:" />
-    <Input2
+    <MyInput
       style=[]
       placeholder="username"
       value=username
       onChange={(value, _) => setValue(state => {...state, username: value})}
     />
     <Text style=Styles.text text="Password:" />
-    <Input2
+    <MyInput
       style=[]
       placeholder="password"
       value=password

@@ -44,7 +44,7 @@ module ApiUrlInput = {
 
     <MyRow debug>
       <MyContainer debug>
-        <Input2
+        <MyInput
           style=Styles.input
           placeholder="API URL"
           value=url
