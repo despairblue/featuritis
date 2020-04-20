@@ -36,6 +36,7 @@ let%component make = (~onSubmit, ()) => {
       style=[]
       placeholder="password"
       value=password
+      typePassword=true
       onChange={(value, _) => setValue(state => {...state, password: value})}
     />
     <MyButton
