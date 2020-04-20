@@ -52,7 +52,7 @@ module ApiUrlInput = {
         />
       </MyContainer>
       <MyContainer debug style=Style.[flexGrow(0)]>
-        <Button
+        <MyButton
           height=50
           width=100
           fontSize=15.
@@ -139,7 +139,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
   let reloadButtonAndTotal =
     <MyRow
       debug style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
-      <Button
+      <MyButton
         height=50
         width=200
         fontSize=15.
@@ -151,7 +151,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
         text={Printf.sprintf("Total: %i", Array.length([||]))}
       />
       <MyRow debug style=Style.[alignSelf(`FlexEnd)]>
-        <Button
+        <MyButton
           color=Colors.crimson
           height=50
           width=100
@@ -159,7 +159,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
           title="Logout"
           onClick={() => dispatch(Logout)}
         />
-        <Button
+        <MyButton
           height=50
           width=200
           fontSize=15.

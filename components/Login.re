@@ -38,7 +38,7 @@ let%component make = (~onSubmit, ()) => {
       value=password
       onChange={(value, _) => setValue(state => {...state, password: value})}
     />
-    <Button
+    <MyButton
       height=50
       width=100
       fontSize=15.
