@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-2016]
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.12
-      CACHE_VERSION: v3
+      CACHE_VERSION: v4
 
     steps:
       - uses: actions/setup-node@v1
