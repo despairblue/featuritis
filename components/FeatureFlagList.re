@@ -1,4 +1,5 @@
 open Stdio;
+open Core;
 open Revery;
 open Revery.UI;
 open Revery.UI.Components;
@@ -16,7 +17,7 @@ module Styles = {
 
   let text = [
     color(Colors.white),
-    fontFamily("Poppins-Regular.ttf"),
+    fontFamily(Constants.fontFamily),
     fontSize(20.),
   ];
 };
@@ -51,7 +52,7 @@ module ApiUrlInput = {
         />
       </MyContainer>
       <MyContainer debug style=Style.[flexGrow(0)]>
-        <Button
+        <MyButton
           height=50
           width=100
           fontSize=15.
@@ -97,7 +98,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
 
     let text = [
       color(Colors.white),
-      fontFamily("Poppins-Regular.ttf"),
+      fontFamily(Constants.fontFamily),
       fontSize(20.),
     ];
   };
@@ -138,8 +139,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
   let reloadButtonAndTotal =
     <MyRow
       debug style=[Style.alignItems(`Center), Style.paddingVertical(10)]>
-      <Button
-        height=50
+      <MyButton
         width=200
         fontSize=15.
         title="Reload Feature Flags"
@@ -150,16 +150,14 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
         text={Printf.sprintf("Total: %i", Array.length([||]))}
       />
       <MyRow debug style=Style.[alignSelf(`FlexEnd)]>
-        <Button
+        <MyButton
           color=Colors.crimson
-          height=50
           width=100
           fontSize=15.
           title="Logout"
           onClick={() => dispatch(Logout)}
         />
-        <Button
-          height=50
+        <MyButton
           width=200
           fontSize=15.
           title={ctx.state.debug ? "Disable Debug Mode" : "Enable Debug Mode"}

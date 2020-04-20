@@ -1,4 +1,5 @@
 open Stdio;
+open Core;
 open Revery;
 open Revery.UI;
 open Revery.UI.Components;
@@ -8,7 +9,7 @@ module Styles = {
 
   let text = [
     color(Colors.white),
-    fontFamily("Poppins-Regular.ttf"),
+    fontFamily(Constants.fontFamily),
     fontSize(20.),
   ];
 };
@@ -37,8 +38,7 @@ let%component make = (~onSubmit, ()) => {
       value=password
       onChange={(value, _) => setValue(state => {...state, password: value})}
     />
-    <Button
-      height=50
+    <MyButton
       width=100
       fontSize=15.
       title="Submit"
