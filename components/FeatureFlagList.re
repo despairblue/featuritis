@@ -149,13 +149,23 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
         style=Styles.text
         text={Printf.sprintf("Total: %i", Array.length([||]))}
       />
-      <Button
-        height=50
-        width=200
-        fontSize=15.
-        title={ctx.state.debug ? "Disable Debug Mode" : "Enable Debug Mode"}
-        onClick={() => dispatch(ToggleDebug)}
-      />
+      <MyRow debug style=Style.[alignSelf(`FlexEnd)]>
+        <Button
+          color=Colors.crimson
+          height=50
+          width=100
+          fontSize=15.
+          title="Logout"
+          onClick={() => dispatch(Logout)}
+        />
+        <Button
+          height=50
+          width=200
+          fontSize=15.
+          title={ctx.state.debug ? "Disable Debug Mode" : "Enable Debug Mode"}
+          onClick={() => dispatch(ToggleDebug)}
+        />
+      </MyRow>
     </MyRow>;
 
   <MyContainer debug>
