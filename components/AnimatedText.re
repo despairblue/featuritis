@@ -8,7 +8,7 @@ module AnimatedText = {
 
     let text = (~yOffset) => [
       color(Colors.white),
-      fontFamily("Roboto-Regular.ttf"),
+      fontFamily("Poppins-Regular.ttf"),
       fontSize(24.),
       transform([Transform.TranslateY(yOffset)]),
     ];
