@@ -20,13 +20,30 @@ let make =
       (),
     ) => {
   let ownOnKeyDown = (e: NodeEvents.keyEventParams) => {
-    printf("keycode: %i\n%!", e.keycode);
+    printf("keycode: %i\tkeymod: %i\n%!", e.keycode, e.keymod);
+    printf(
+      "isLeftControlDown: %b\tisControlDown: %b\tisRightControlDown: %b\n%!",
+      Sdl2.Keymod.isLeftControlDown(e.keymod),
+      Sdl2.Keymod.isControlDown(e.keymod),
+      Sdl2.Keymod.isRightControlDown(e.keymod),
+    );
+    printf(
+      "isLeftGuiDown: %b\tisGuiDown: %b\tisRightGuiDown: %b\n%!",
+      Sdl2.Keymod.isLeftGuiDown(e.keymod),
+      Sdl2.Keymod.isGuiDown(e.keymod),
+      Sdl2.Keymod.isRightGuiDown(e.keymod),
+    );
 
-    switch (e.keycode) {
-    | v when v === 118 && e.ctrlKey =>
+    let paste = () => {
       printf("somebody tried to paste\n%!");
       Sdl2.Clipboard.getText()
       |> Base.Option.iter(~f=text => onChange(text, 0));
+    };
+
+    switch (e) {
+    | e when e.keycode === 118 && Sdl2.Keymod.isGuiDown(e.keymod) => paste()
+    | e when e.keycode === 118 && Sdl2.Keymod.isControlDown(e.keymod) =>
+      paste()
     | _ => ()
     };
 
