@@ -57,8 +57,8 @@ let init = app => {
       ~createOptions={
         ...Revery_Core.WindowCreateOptions.default,
         backgroundColor: Color.hex("#1f242e"),
-        width: 1000,
-        height: 2000,
+        width: 800,
+        height: 500,
       },
     );
 
