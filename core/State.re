@@ -49,6 +49,7 @@ type action =
   | DisableFeatureFlag(string)
   | EnableFeatureFlag(string)
   | Login(string)
+  | Logout
   | ToggleDebug
   | UpdateFeatureFlags(array(featureFlags));
 
@@ -60,6 +61,7 @@ let stringOfAction =
   | EnableFeatureFlag(flag) =>
     Printf.sprintf({|EnableFeatureFlag "%s"|}, flag)
   | Login(_authToken) => "Login"
+  | Logout => "Logout"
   | ToggleDebug => "ToggleDebug"
   | UpdateFeatureFlags(_featureFlags) => "UpdateFeatureFlags";
 
@@ -103,6 +105,10 @@ let reducer = (action, state) => {
     | Login(authToken) =>
       Config.writeConfig({apiUrl: state.apiUrl, authToken: Some(authToken)});
       {...state, authToken: Some(authToken)};
+
+    | Logout =>
+      Config.writeConfig({apiUrl: state.apiUrl, authToken: None});
+      {...state, authToken: None};
     };
 
   newState |> addGraphqlConfig;
