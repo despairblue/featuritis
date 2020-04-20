@@ -76,7 +76,8 @@ jobs:
         run: esy doc
 
       - name: Build Binary
-        if: matrix.os == 'windows-2016'
+        # if: matrix.os == 'windows-2016'
+        if: false
         run: |
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
@@ -102,7 +103,8 @@ jobs:
 
       - name: Upload Binary
         uses: actions/upload-artifact@v1
-        if: matrix.os == 'self-hosted'
+        # if: matrix.os == 'self-hosted'
+        if: false
         with:
           name: macosx-featuritis.dmg
           path: _release/ReveryApp.dmg
