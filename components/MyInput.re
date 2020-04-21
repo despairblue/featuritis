@@ -125,6 +125,7 @@ module Constants = {
 type textAttributes = {
   fontFamily: string,
   fontSize: float,
+  lineHeight: float,
   color: Color.t,
 };
 
@@ -224,8 +225,10 @@ let%component make =
   let%hook (scrollOffset, _setScrollOffset) = Hooks.state(ref(0));
 
   let textAttrs = {
-    fontFamily: Selector.select(style, FontFamily, "Roboto-Regular.ttf"),
+    fontFamily: Selector.select(style, FontFamily, Core.Constants.fontFamily),
     fontSize: Selector.select(style, FontSize, 18.),
+    // TODO: LineHeight selector is missing
+    lineHeight: Core.Constants.lineHeight,
     color: Selector.select(style, Color, Colors.black),
   };
 
