@@ -35,6 +35,7 @@ let make =
         style=Style.[
           fontSize(size),
           fontFamily(family),
+          lineHeight(Constants.lineHeight),
           color(Colors.white),
         ]
         text=title
