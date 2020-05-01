@@ -15,21 +15,21 @@ module Styles = {
 };
 
 type inputFields = {
-  username: string,
+  email: string,
   password: string,
 };
 
 let%component make = (~onSubmit, ()) => {
-  let%hook ({username, password}, setValue) =
-    Hooks.state({username: "", password: ""});
+  let%hook ({email, password}, setValue) =
+    Hooks.state({email: "", password: ""});
 
   <View style=[]>
     <Text style=Styles.text text="Username:" />
     <MyInput
       style=[]
-      placeholder="username"
-      value=username
-      onChange={(value, _) => setValue(state => {...state, username: value})}
+      placeholder="email"
+      value=email
+      onChange={(value, _) => setValue(state => {...state, email: value})}
     />
     <Text style=Styles.text text="Password:" />
     <MyInput
@@ -45,7 +45,7 @@ let%component make = (~onSubmit, ()) => {
       title="Submit"
       onClick={() => {
         printf("onClick\n%!");
-        onSubmit(~username, ~password);
+        onSubmit(~email, ~password);
       }}
     />
   </View>;
