@@ -79,9 +79,6 @@ jobs:
       - name: Test
         run: esy test
 
-      - name: Build docs
-        run: esy doc
-
       - name: Debugging with tmate
         if: false
         uses: mxschmitt/action-tmate@v2
