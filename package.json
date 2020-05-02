@@ -19,7 +19,6 @@
   },
   "scripts": {
     "dev:watch": "watchman-make -p '**/*.re' --run 'esy build'",
-    "doc": "esy dune build @doc",
     "format": "esy dune build @fmt --auto-promote",
     "start": "esy x App",
     "test": "esy x App --checkhealth"
@@ -43,7 +42,6 @@
   "devDependencies": {
     "@opam/merlin": "*",
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
-    "@opam/odoc": "*",
     "@reason-native/rely": "*",
     "ocaml": "~4.8.1000",
     "refmterr": "*"
@@ -54,7 +52,7 @@
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "esy-skia": "revery-ui/esy-skia#07c13a9",
-    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#6256b9d43f99476d9184957ab6286568822e9b5d",
+    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#246dff4361ced8c3a3b30cae65486b643ae63b2f",
     "revery-graphql-hooks": "despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925",
     "revery": "github:revery-ui/revery#e3448c2"
   }
