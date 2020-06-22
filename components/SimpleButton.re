@@ -64,14 +64,16 @@ module SimpleButton = {
 
     let ctx = Core.Context.make(state, dispatch);
 
-    let login = (~email, ~password) => {
+    let login = (~email, ~password, ~endpoint) => {
       let body =
         `Assoc([
           ("email", `String(email)),
           ("password", `String(password)),
         ]);
 
-      sendRequest(~body, ());
+      let endpoint = endpoint == "" ? "http://localhost:3000/api/v0.0.1/users/authenticate" : endpoint;
+        
+      sendRequest(~body, ~url=endpoint, ());
     };
 
     switch (state.graphQLConfig) {

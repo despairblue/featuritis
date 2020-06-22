@@ -41,7 +41,7 @@ let use =
     ) => {
   let%hook (state, dispatch) = Hooks.reducer(~initialState, reducer);
 
-  let sendRequest = (~body: Yojson.Basic.t, ()) => {
+  let sendRequest = (~body: Yojson.Basic.t,~url=url, ()) => {
     dispatch(SendRequest);
 
     Fetch.post(~body=Yojson.Basic.to_string(body), ~headers, url)
