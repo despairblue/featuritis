@@ -17,13 +17,21 @@ module Styles = {
 type inputFields = {
   email: string,
   password: string,
+  endpoint: string,
 };
 
 let%component make = (~onSubmit, ()) => {
-  let%hook ({email, password}, setValue) =
-    Hooks.state({email: "", password: ""});
+  let%hook ({email, password, endpoint}, setValue) =
+    Hooks.state({email: "", password: "", endpoint: ""});
 
   <View style=[]>
+    <Text style=Styles.text text="Endpoint:" />
+    <MyInput
+      style=[]
+      placeholder="localhost:3000"
+      value=endpoint
+      onChange={(value, _) => setValue(state => {...state, endpoint: value})}
+    />
     <Text style=Styles.text text="Username:" />
     <MyInput
       style=[]
@@ -45,7 +53,7 @@ let%component make = (~onSubmit, ()) => {
       title="Submit"
       onClick={() => {
         printf("onClick\n%!");
-        onSubmit(~email, ~password);
+        onSubmit(~email, ~password, ~endpoint);
       }}
     />
   </View>;
