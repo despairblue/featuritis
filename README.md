@@ -1,13 +1,14 @@
-# hello-reason
+# Featuritis (terrible name and needs to change)
 
-[![Build Status](https://dev.azure.com/esy-ocaml/esy-ocaml/_apis/build/status/esy-ocaml.hello-reason?branchName=master)](https://dev.azure.com/esy-ocaml/esy-ocaml/_build/latest?definitionId=1?branchName=master)
+![Master - Release](https://github.com/despairblue/featuritis/workflows/Master%20-%20Release/badge.svg)
 
-A project which demonstrates a Reason workflow with [Esy][].
+## Download
 
-[Esy]: https://github.com/esy-ocaml/esy
+Check out the [latest master workflow] run. It has artifacts for Windows, Linux and Mac OS attached.
 
+[latest master workflow]: https://github.com/despairblue/featuritis/actions?query=workflow%3A%22Master+-+Release%22
 
-## Usage
+## Local Setup
 
 You need Esy, you can install the beta using [npm](https://npmjs.com):
 
@@ -19,59 +20,28 @@ Then run the `esy` command from this project root to install and build dependenc
 
     % esy
 
-Now you can run your editor within the environment (which also includes merlin):
+## Development Flow
 
-    % esy $EDITOR
-    % esy vim
+1. Open 2 Terminals
+2. Terminal 1
 
-Alternatively you can try [vim-reasonml](https://github.com/jordwalke/vim-reasonml)
-which loads esy project environments automatically.
+   ```shell
+   esy dev:watch
+   ```
 
-After you make some changes to source code, you can re-run project's build
-again with the same simple `esy` command.
+3. Terminal 2
 
-    % esy
+   - Fish
 
-And test compiled executable (runs `scripts.tests` specified in
-`package.json`):
+     ```shell
+     while true; esy install && esy x App || sleep 1; end
+     ```
 
-    % esy test
+   - Bash
 
-Documentation for the libraries in the project can be generated with:
+     ```shell
+     while true; do esy install && esy x App || sleep 1; done
+     ```
 
-    % esy doc
-    % esy open '#{self.target_dir}/default/_doc/_html/index.html'
-
-Shell into environment:
-
-    % esy shell
-
-
-## Create Prebuilt Release:
-
-`esy` allows creating prebuilt binary packages for your current platform, with
-no dependencies.
-
-    % esy npm-release
-    % cd _release
-    % npm publish
-
-## Continuous Integration:
-`hello-reason` includes CI configuration for Azure
-[DevOps](https://dev.azure.com) pipelines out of the box.
-
-- Create your Azure DevOps account.
-- Add a new project, and point that new Azure DevOps project to your github
-  repo that includes the CI (`./azure-pipelines.yml` and the `.ci/` directory)
-  from `hello-reason`.
-- Create a new Pipeline within that project.
-  - When asked how to configure the new pipeline, select the option to use
-    existing configuration inside the repo.
-
-The CI is configured to build caches on the `master` branch, and also any
-branch named one of (`global`, `release-*`, `releases-*`). That means that pull
-requests to any branch with those names will be fast, once you have landed at
-least one commit to that branch. The first time you submit a pull request to
-one of those branches, the builds will be slow but then subsequent pull
-requests will be faster once a pull request is merged to it.
-
+4. Open any editor, change and save code.
+5. When ever you want to reload the app. Just close it. It will open again.
