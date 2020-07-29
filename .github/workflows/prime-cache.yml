@@ -15,7 +15,6 @@ jobs:
       # If we have many bug we can test on all plateform
       fail-fast: false
       matrix:
-        # I can't afford to build on mac os all the time...
         os: [ubuntu-latest, macos-latest, windows-2016]
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.12
