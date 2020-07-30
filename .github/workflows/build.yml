@@ -82,9 +82,8 @@ jobs:
         if: false
         uses: mxschmitt/action-tmate@v2
 
-      - name: Build Binary
-        # if: matrix.os == 'windows-2016'
-        if: false
+      - name: Build Binary on windows-latest
+        if: matrix.os == 'windows-2016'
         run: |
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
           ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
