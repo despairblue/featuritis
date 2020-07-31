@@ -64,7 +64,7 @@ jobs:
           key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
           restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
-      - name: Try to restore dependencies cache on ubuntu-latest
+      - name: Try to restore dependencies cache
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         uses: despairblue/cache@462caf264919a479324c66ba453a5f80ac27f349
         with:
