@@ -27,11 +27,7 @@ module SimpleButton = {
       margin(16),
     ];
 
-    let text = [
-      color(Colors.white),
-      fontFamily(Constants.fontFamily),
-      fontSize(20.),
-    ];
+    let text = [color(Colors.white)];
   };
 
   module State = Core.State;
@@ -81,11 +77,25 @@ module SimpleButton = {
       <View>
         <Login onSubmit=login />
         {switch (loginState) {
-         | Idle => <Text style=Styles.text text="idle" />
-         | Loading => <Text style=Styles.text text="loading" />
+         | Idle =>
+           <Text
+             style=Styles.text
+             fontFamily=Constants.fontFamily
+             fontSize=20.
+             text="idle"
+           />
+         | Loading =>
+           <Text
+             style=Styles.text
+             fontFamily=Constants.fontFamily
+             fontSize=20.
+             text="loading"
+           />
          | ServerError(Fetch.Response.{status, body}) =>
            <Text
              style=Styles.text
+             fontFamily=Constants.fontFamily
+             fontSize=20.
              text={Printf.sprintf(
                "ServerError: %i\n%s",
                Fetch.Status.toCode(status),
@@ -95,9 +105,17 @@ module SimpleButton = {
          | NetworkError(error) =>
            <Text
              style=Styles.text
+             fontFamily=Constants.fontFamily
+             fontSize=20.
              text={Printf.sprintf("NetworkError: %s", error)}
            />
-         | Data(body) => <Text style=Styles.text text=body />
+         | Data(body) =>
+           <Text
+             style=Styles.text
+             fontFamily=Constants.fontFamily
+             fontSize=20.
+             text=body
+           />
          }}
       </View>
     };

@@ -8,11 +8,7 @@ module Styles = {
 
   let row = [alignItems(`Center)];
 
-  let text = [
-    color(Colors.white),
-    fontFamily(Constants.fontFamily),
-    fontSize(20.),
-  ];
+  let text = [color(Colors.white)];
 
   let checkboxStyle = [
     width(25),
@@ -95,7 +91,12 @@ let%component make =
   };
 
   <MyRow debug style=Styles.row>
-    <Text style=Styles.text text={featureFlag.name} />
+    <Text
+      style=Styles.text
+      fontFamily=Constants.fontFamily
+      fontSize=20.
+      text={featureFlag.name}
+    />
     <Checkbox
       style=Styles.checkboxStyle
       checked={featureFlag.enabled}
