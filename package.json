@@ -33,8 +33,7 @@
     "@reason-native/pastel": "*",
     "esy-macdylibbundler": "^0.4.5",
     "fetch-native-lwt": "*",
-    "graphql_ppx": "github:reasonml-community/graphql_ppx:esy.json#abdcc90a3d0824a2a41428d31217e312271136df",
-    "ocaml": "~4.8.1000",
+    "graphql_ppx": "github:reasonml-community/graphql-ppx:esy.json#a8c65b2ecc303ac5ddfaf4079b719b52a7379490",
     "ocaml-syntax-shims": "github:ocaml-ppx/ocaml-syntax-shims:ocaml-syntax-shims.opam#38a6dd23543d9c4c3678fc6741962832fd539877",
     "revery-graphql-hooks": "*",
     "revery": "*"
@@ -43,7 +42,7 @@
     "@opam/merlin": "*",
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "@reason-native/rely": "*",
-    "ocaml": "~4.8.1000",
+    "ocaml": "~4.10",
     "refmterr": "*"
   },
   "resolutions": {
@@ -51,9 +50,9 @@
     "@esy-ocaml/reason": "3.6.0",
     "@opam/cmdliner": "1.0.2",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
-    "esy-skia": "revery-ui/esy-skia#07c13a9",
-    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#246dff4361ced8c3a3b30cae65486b643ae63b2f",
+    "esy-skia": "revery-ui/esy-skia#a3785f9",
+    "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#cca3980900c70d21341bf0aa9a1e091e75161f23",
     "revery-graphql-hooks": "despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925",
-    "revery": "github:revery-ui/revery#e3448c2"
+    "revery": "github:revery-ui/revery#625794e"
   }
 }

@@ -15,11 +15,7 @@ module Styles = {
     margin(16),
   ];
 
-  let text = [
-    color(Colors.white),
-    fontFamily(Constants.fontFamily),
-    fontSize(20.),
-  ];
+  let text = [color(Colors.white)];
 };
 
 module ApiUrlInput = {
@@ -44,7 +40,7 @@ module ApiUrlInput = {
 
     <MyRow debug>
       <MyContainer debug>
-        <MyInput
+        <Input
           style=Styles.input
           placeholder="API URL"
           value=url
@@ -96,11 +92,7 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
 
     let container = [flexGrow(1)];
 
-    let text = [
-      color(Colors.white),
-      fontFamily(Constants.fontFamily),
-      fontSize(20.),
-    ];
+    let text = [color(Colors.white)];
   };
 
   let Core.Context.{state, dispatch} = ctx;
@@ -129,9 +121,27 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
 
   let featureFlags =
     switch (flags) {
-    | Idle => <Text style=Styles.text text="Nothing Loaded Yet" />
-    | Loading => <Text style=Styles.text text="Loading..." />
-    | Error => <Text style=Styles.text text={Printf.sprintf("Error: ")} />
+    | Idle =>
+      <Text
+        style=Styles.text
+        fontFamily=Constants.fontFamily
+        fontSize=20.
+        text="Nothing Loaded Yet"
+      />
+    | Loading =>
+      <Text
+        style=Styles.text
+        fontFamily=Constants.fontFamily
+        fontSize=20.
+        text="Loading..."
+      />
+    | Error =>
+      <Text
+        style=Styles.text
+        fontFamily=Constants.fontFamily
+        fontSize=20.
+        text={Printf.sprintf("Error: ")}
+      />
     | Data(_query) =>
       renderFeatureFlags(~debug, ~graphQLConfig, ~ctx, state.featureFlags)
     };
@@ -147,6 +157,8 @@ let%component make = (~graphQLConfig, ~ctx: Core.Context.t, ()) => {
       />
       <Text
         style=Styles.text
+        fontFamily=Constants.fontFamily
+        fontSize=20.
         text={Printf.sprintf("Total: %i", Array.length([||]))}
       />
       <MyRow debug style=Style.[alignSelf(`FlexEnd)]>

@@ -7,11 +7,7 @@ open Revery.UI.Components;
 module Styles = {
   open Style;
 
-  let text = [
-    color(Colors.white),
-    fontFamily(Constants.fontFamily),
-    fontSize(20.),
-  ];
+  let text = [color(Colors.white)];
 };
 
 type inputFields = {
@@ -24,19 +20,29 @@ let%component make = (~onSubmit, ()) => {
     Hooks.state({email: "", password: ""});
 
   <View style=[]>
-    <Text style=Styles.text text="Username:" />
-    <MyInput
+    <Text
+      style=Styles.text
+      fontFamily=Constants.fontFamily
+      fontSize=20.
+      text="Username:"
+    />
+    <Input
       style=[]
       placeholder="email"
       value=email
       onChange={(value, _) => setValue(state => {...state, email: value})}
     />
-    <Text style=Styles.text text="Password:" />
-    <MyInput
+    <Text
+      style=Styles.text
+      fontFamily=Constants.fontFamily
+      fontSize=20.
+      text="Password:"
+    />
+    <Input
       style=[]
       placeholder="password"
       value=password
-      typePassword=true
+      isPassword=true
       onChange={(value, _) => setValue(state => {...state, password: value})}
     />
     <MyButton

@@ -32,12 +32,9 @@ let make =
         width(w),
       ]>
       <Text
-        style=Style.[
-          fontSize(size),
-          fontFamily(family),
-          lineHeight(Constants.lineHeight),
-          color(Colors.white),
-        ]
+        style=Style.[lineHeight(Constants.lineHeight), color(Colors.white)]
+        fontSize=size
+        fontFamily=family
         text=title
       />
     </View>

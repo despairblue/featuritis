@@ -9,8 +9,6 @@ module AnimatedText = {
 
     let text = (~yOffset) => [
       color(Colors.white),
-      fontFamily(Constants.fontFamily),
-      fontSize(24.),
       transform([Transform.TranslateY(yOffset)]),
     ];
   };
@@ -34,7 +32,12 @@ module AnimatedText = {
 
     <Opacity opacity=animatedOpacity>
       <Padding padding=8>
-        <Text style={Styles.text(~yOffset)} text />
+        <Text
+          style={Styles.text(~yOffset)}
+          fontFamily=Constants.fontFamily
+          fontSize=24.
+          text
+        />
       </Padding>
     </Opacity>;
   };
