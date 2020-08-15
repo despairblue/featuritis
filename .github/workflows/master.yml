@@ -59,7 +59,7 @@ jobs:
           restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
 
       - name: Try to restore dependencies cache on ubuntu-latest
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         uses: actions/cache@v1
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
