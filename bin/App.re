@@ -53,7 +53,7 @@ let init = app => {
   let win =
     App.createWindow(
       app,
-      "Welcome to Revery!",
+      "Featuritis",
       ~createOptions={
         ...Revery_Core.WindowCreateOptions.default,
         backgroundColor: Color.hex("#1f242e"),
