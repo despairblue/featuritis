@@ -49,6 +49,7 @@
     "@esy-ocaml/libffi": "esy-ocaml/libffi#590b041",
     "@esy-ocaml/reason": "3.6.0",
     "@opam/cmdliner": "1.0.2",
+    "@opam/conf-libssl": "esy-packages/esy-openssl#44762916645a5b6d4f6037aabf80e95fa4140547",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "esy-skia": "revery-ui/esy-skia#a3785f9",
     "fetch-native-lwt": "lessp/fetch:fetch-native-lwt.json#cca3980900c70d21341bf0aa9a1e091e75161f23",
