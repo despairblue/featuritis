@@ -44,9 +44,8 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ hashFiles('esy.lock/index.json') }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
           restore-keys: |
-            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-
             ${{ runner.os }}-esy-
 
       - name: Debugging with tmate
