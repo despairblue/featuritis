@@ -110,6 +110,4 @@ jobs:
       # up to roughly 4 GB for all OSes together.
       - name: Delete Cache
         if: always()
-        run: |
-          rimraf _export _tarballs
-          ls _tarballs _export || true
+        run: rimraf _export _tarballs

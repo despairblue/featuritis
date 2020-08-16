@@ -40,6 +40,10 @@ jobs:
           brew install cmake libtool libpng ragel tree pkg-config || true
           brew upgrade cmake libtool libpng ragel tree pkg-config || true
 
+      - name: Create Random Number
+        id: random
+        run: echo "::set-output name=number::$(node -e 'console.log(Math.random())')"
+
       - name: Restore Cache
         id: restore-cache
         uses: actions/cache@v2
@@ -47,7 +51,11 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ github.sha }}
+          # Don't use the same prefix for `key` to make sure that  we're not
+          # creating one that would be matching the `restore-keys`.
+          # Also we use the sha and a random number to make sure that we can
+          # rerun the workflow without using the empty cache we just create.
+          key: pr-${{ runner.os }}-esy-${{ github.sha }}-${{ steps.random.outputs.number }}
           restore-keys: |
             ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-

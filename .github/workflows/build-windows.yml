@@ -34,6 +34,10 @@ jobs:
         id: print_esy_cache
         run: node .github/workflows/print_esy_cache.js
 
+      - name: Create Random Number
+        id: random
+        run: echo "::set-output name=number::$(node -e 'console.log(Math.random())')"
+
       - name: Restore Cache
         id: restore-cache
         uses: actions/cache@v2
@@ -41,7 +45,9 @@ jobs:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
           # Don't use the same prefix for `key` to make sure that  we're not
           # creating one that would be matching the `restore-keys`.
-          key: pr-${{ runner.os }}-esy-${{ github.sha }}
+          # Also we use the sha and a random number to make sure that we can
+          # rerun the workflow without using the empty cache we just create.
+          key: pr-${{ runner.os }}-esy-${{ github.sha }}-${{ steps.random.outputs.number }}
           restore-keys: |
             ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
@@ -66,5 +72,4 @@ jobs:
       # up to roughly 4 GB for all OSes together.
       - name: Delete Cache
         if: always()
-        run: |
-          rimraf ${{ steps.print_esy_cache.outputs.esy_cache }}
+        run: rimraf ${{ steps.print_esy_cache.outputs.esy_cache }}
