@@ -40,6 +40,10 @@ jobs:
           brew install cmake libtool libpng ragel tree pkg-config || true
           brew upgrade cmake libtool libpng ragel tree pkg-config || true
 
+      - name: Create Random Number
+        id: random
+        run: echo "::set-output name=number::$(node -e 'console.log(Math.random())')"
+
       - name: Restore Cache
         id: restore-cache
         uses: actions/cache@v2
@@ -47,8 +51,13 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          # Don't use the same prefix for `key` to make sure that  we're not
+          # creating one that would be matching the `restore-keys`.
+          # Also we use the sha and a random number to make sure that we can
+          # rerun the workflow without using the empty cache we just create.
+          key: pr-${{ runner.os }}-esy-${{ github.sha }}-${{ steps.random.outputs.number }}
           restore-keys: |
+            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
 
       - name: Install
@@ -58,15 +67,9 @@ jobs:
       - name: Import Build-Cache
         run: |
           esy import-dependencies _export
-          rimraf _export
 
       - name: Build
         run: esy build
-
-      - name: Export Build-Cache
-        if: steps.restore-cache.outputs.cache-hit != 'true'
-        run: |
-          esy export-dependencies
 
       - name: Test
         run: esy test
@@ -94,3 +97,11 @@ jobs:
         with:
           name: macosx-featuritis.dmg
           path: _release/ReveryApp.dmg
+
+      # Delete build cache so it cannot be saved. Every OS only has one
+      # cache that is created every Monday by the prime-cache workflow.
+      # Otherwise the caches would start evicting each other since they add
+      # up to roughly 4 GB for all OSes together.
+      - name: Delete Cache
+        if: always()
+        run: rimraf _export _tarballs

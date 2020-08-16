@@ -48,8 +48,9 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ hashFiles('esy.lock/index.json') }}
           restore-keys: |
+            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
 
       - name: Install
@@ -59,6 +60,7 @@ jobs:
       - name: Import Build-Cache
         run: |
           esy import-dependencies _export
+          # make sure the cache is pruned
           rimraf _export
 
       - name: Build

@@ -32,7 +32,10 @@ jobs:
         run: npm install -g windows-build-tools
 
       - name: Install
-        run: esy install
+        run: |
+          esy install
+          # make sure the cache is pruned
+          esy cleanup .
 
       - name: Print esy cache directory
         id: print_esy_cache
@@ -43,8 +46,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ hashFiles('esy.lock/index.json') }}
           restore-keys: |
+            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
 
       - name: Build
