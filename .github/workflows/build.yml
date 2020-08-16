@@ -98,12 +98,12 @@ jobs:
           name: macosx-featuritis.dmg
           path: _release/ReveryApp.dmg
 
-      # Delete build cache so it cannot be saved. Every OS only has one
+      # Delete everything to make the cache upload fail. Every OS only has one
       # cache that is created every Monday by the prime-cache workflow.
-      # Otherwise the caches would start evicting each other since they add
-      # up to roughly 4 GB for all OSes together.
+      # Otherwise the caches would start evicting each other since they add up
+      # to roughly 4 GB for all OSes together.
       - name: Delete Cache
         if: always()
         run: |
-          rimraf _export _tarballs
+          rimraf $(pwd)
           ls _tarballs _export || true
