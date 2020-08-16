@@ -36,7 +36,7 @@ jobs:
 
       - name: Restore Cache
         id: restore-cache
-        uses: despairblue/cache@462caf264919a479324c66ba453a5f80ac27f349
+        uses: despairblue/cache@044b2e1d816db9cc9427a5890e504f991bc91217
         with:
           restore-only: true
           path: |

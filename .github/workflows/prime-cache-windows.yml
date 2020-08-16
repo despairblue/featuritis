@@ -40,7 +40,7 @@ jobs:
 
       - name: Restore Cache
         id: restore-cache
-        uses: despairblue/cache@687d83fbbfd0127527384db61347bf12b3fa7e73
+        uses: despairblue/cache@044b2e1d816db9cc9427a5890e504f991bc91217
         with:
           path: ${{ steps.print_esy_cache.outputs.esy_cache }}
           key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
