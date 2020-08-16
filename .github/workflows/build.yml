@@ -44,7 +44,9 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ github.sha }}
+          # Don't use the same prefix for `key` to make sure that  we're not
+          # creating one that would be matching the `restore-keys`.
+          key: pr-${{ runner.os }}-esy-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
