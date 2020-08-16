@@ -63,11 +63,6 @@ jobs:
       - name: Build
         run: esy build
 
-      - name: Export Build-Cache
-        if: steps.restore-cache.outputs.cache-hit != 'true'
-        run: |
-          esy export-dependencies
-
       - name: Test
         run: esy test
 
