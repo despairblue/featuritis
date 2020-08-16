@@ -44,8 +44,9 @@ jobs:
           path: |
             _export
             _tarballs
-          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
             ${{ runner.os }}-esy-
 
       - name: Debugging with tmate
@@ -59,7 +60,6 @@ jobs:
       - name: Import Build-Cache
         run: |
           esy import-dependencies _export
-          rimraf _export
 
       - name: Build
         run: esy build
@@ -99,3 +99,12 @@ jobs:
         with:
           name: macosx-featuritis.dmg
           path: _release/ReveryApp.dmg
+
+      - name: Delete Cache
+        if: always()
+        run: |
+          # Delete build cache so it cannot be saved. Every OS only has one
+          # cache that is created every Monday by the prime-cache workflow.
+          # Otherwise the caches would start evicting each other since they add
+          # up to roughly 4 GB for all OSes together.
+          rimraf _export _tarballs
