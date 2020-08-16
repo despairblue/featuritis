@@ -1,0 +1,57 @@
+name: Prime Cache Windows
+
+on:
+  schedule:
+    # “At 00:00 on Monday.”
+    - cron: "0 0 * * 1"
+  push:
+    branches:
+      - prime-cache
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # If we have many bug we can test on all plateform
+      fail-fast: false
+      matrix:
+        os: [windows-2016]
+    env:
+      CACHE_VERSION: v5
+
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@v1
+
+      - name: Install esy
+        run: npm install -g esy@0.6.6
+
+      - name: Install native dependencies
+        if: false
+        run: npm install -g windows-build-tools
+
+      - name: Install
+        run: esy install
+
+      - name: Print esy cache directory
+        id: print_esy_cache
+        run: node .github/workflows/print_esy_cache.js
+
+      - name: Restore Cache
+        id: restore-cache
+        uses: despairblue/cache@687d83fbbfd0127527384db61347bf12b3fa7e73
+        with:
+          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-esy-
+
+      - name: Build
+        run: esy build
+
+      - name: Test
+        run: esy test
