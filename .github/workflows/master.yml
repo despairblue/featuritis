@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Install esy, rimraf, revery-packager
-        run: npm install -g esy@0.6.6 rimraf@3.0.2 revery-packager@1.22.4
+        run: npm install -g esy@0.6.6 rimraf@3.0.2 revery-packager@1.1.0
 
       - name: Install native dependencies on ubuntu-latest
         if: matrix.os == 'ubuntu-latest'
