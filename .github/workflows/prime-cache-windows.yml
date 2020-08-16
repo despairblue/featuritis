@@ -32,7 +32,10 @@ jobs:
         run: npm install -g windows-build-tools
 
       - name: Install
-        run: esy install
+        run: |
+          esy install
+          # make sure the cache is pruned
+          esy cleanup .
 
       - name: Print esy cache directory
         id: print_esy_cache
