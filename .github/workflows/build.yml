@@ -9,10 +9,10 @@ jobs:
       # If we have many bug we can test on all plateform
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2016]
+        os: [ubuntu-latest, macos-latest]
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.12
-      CACHE_VERSION: v4
+      CACHE_VERSION: v5
 
     steps:
       - uses: actions/setup-node@v1
@@ -21,11 +21,8 @@ jobs:
 
       - uses: actions/checkout@v1
 
-      - name: Install esy
-        run: npm install -g esy@0.6.4
-
-      - name: Install revery-packager
-        run: npm install -g revery-packager
+      - name: Install esy, rimraf, revery-packager
+        run: npm install -g esy@0.6.6 rimraf@3.0.2 revery-packager@1.1.0
 
       - name: Install native dependencies on ubuntu-latest
         if: matrix.os == 'ubuntu-latest'
@@ -40,40 +37,37 @@ jobs:
           brew install cmake libtool libpng ragel tree pkg-config || true
           brew upgrade cmake libtool libpng ragel tree pkg-config || true
 
-      # - name: Install native dependencies on windows-2016
-      #   if: matrix.os == 'windows-2016'
-      #   run: npm install -g windows-build-tools
-      #
+      - name: Restore Cache
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            _export
+            _tarballs
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-esy-
 
       - name: Debugging with tmate
         if: false
         uses: mxschmitt/action-tmate@v2
 
       - name: Install
-        run: esy install
+        run: |
+          esy install --cache-tarballs-path=./_tarballs
 
-      - name: Print esy cache
-        id: print_esy_cache
-        run: node .github/workflows/print_esy_cache.js
-
-      - name: Try to restore dependencies cache on windows-2016
-        if: matrix.os == 'windows-2016'
-        uses: despairblue/cache@v1.0.4
-        with:
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
-          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
-
-      - name: Try to restore dependencies cache on ubuntu-latest
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
-        uses: despairblue/cache@462caf264919a479324c66ba453a5f80ac27f349
-        with:
-          path: ${{ steps.print_esy_cache.outputs.esy_cache }}
-          key: ${{ matrix.os }}-${{ hashFiles('**/index.json') }}-${{ env.CACHE_VERSION }}
-          restore-keys: ${{ matrix.os }}-${{ env.CACHE_VERSION }}
+      - name: Import Build-Cache
+        run: |
+          esy import-dependencies _export
+          rimraf _export
 
       - name: Build
         run: esy build
+
+      - name: Export Build-Cache
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: |
+          esy export-dependencies
 
       - name: Test
         run: esy test
@@ -81,15 +75,6 @@ jobs:
       - name: Debugging with tmate
         if: false
         uses: mxschmitt/action-tmate@v2
-
-      - name: Build Binary
-        # if: matrix.os == 'windows-2016'
-        if: false
-        run: |
-          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
-          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
-          revery-packager || true
-          ls _release/ || true
 
       - name: Build Binary on ubuntu-latest
         if: matrix.os == 'ubuntu-latest'

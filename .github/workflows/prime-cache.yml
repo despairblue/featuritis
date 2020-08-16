@@ -4,9 +4,6 @@ on:
   schedule:
     # “At 00:00 on Monday.”
     - cron: "0 0 * * 1"
-  push:
-    branches:
-      - prime-cache
   workflow_dispatch:
 
 jobs:
@@ -46,7 +43,7 @@ jobs:
 
       - name: Restore Cache
         id: restore-cache
-        uses: despairblue/cache@687d83fbbfd0127527384db61347bf12b3fa7e73
+        uses: actions/cache@v2
         with:
           path: |
             _export
