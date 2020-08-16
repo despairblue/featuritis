@@ -62,9 +62,7 @@ jobs:
         uses: mxschmitt/action-tmate@v2
 
       - name: Install
-        run: |
-          ls _tarballs _export || true
-          esy install --cache-tarballs-path=./_tarballs
+        run: esy install --cache-tarballs-path=./_tarballs
 
       - name: Import Build-Cache
         run: |
