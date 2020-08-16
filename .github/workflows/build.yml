@@ -41,6 +41,7 @@ jobs:
         id: restore-cache
         uses: despairblue/cache@462caf264919a479324c66ba453a5f80ac27f349
         with:
+          restore-only: true
           path: |
             _export
             _tarballs
