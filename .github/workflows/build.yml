@@ -57,7 +57,7 @@ jobs:
 
       - name: Install
         run: |
-          ls _tarballs _export
+          ls _tarballs _export || true
           esy install --cache-tarballs-path=./_tarballs
 
       - name: Import Build-Cache
@@ -106,4 +106,4 @@ jobs:
         if: always()
         run: |
           rimraf _export _tarballs
-          ls _tarballs _export
+          ls _tarballs _export || true
