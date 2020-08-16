@@ -1,0 +1,63 @@
+name: Master - Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # If we have many bug we can test on all plateform
+      fail-fast: false
+      matrix:
+        os: [windows-2016]
+    env:
+      CACHE_VERSION: v5
+
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@v1
+
+      - name: Install esy, revery-packager
+        run: npm install -g esy@0.6.6 revery-packager@1.22.4
+
+      - name: Install native dependencies
+        if: false
+        run: npm install -g windows-build-tools
+
+      - name: Install
+        run: esy install
+
+      - name: Print esy cache directory
+        id: print_esy_cache
+        run: node .github/workflows/print_esy_cache.js
+
+      - name: Restore Cache
+        id: restore-cache
+        uses: despairblue/cache@462caf264919a479324c66ba453a5f80ac27f349
+        with:
+          path: |
+            ${{ steps.print_esy_cache.outputs.esy_cache }}
+          key: ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-${{ hashFiles('esy.lock/index.json') }}
+          restore-keys: |
+            ${{ runner.os }}-esy-${{ env.CACHE_VERSION }}-
+            ${{ runner.os }}-esy-
+
+      - name: Build
+        run: esy build
+
+      - name: Test
+        run: esy test
+
+      - name: Build Binary
+        if: false
+        run: |
+          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\ || true
+          ls D:\a\featuritis\featuritis\_esy\default\store\i\hello_reason-a307a664\bin || true
+          revery-packager || true
+          ls _release/ || true
