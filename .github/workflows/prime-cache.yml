@@ -60,6 +60,7 @@ jobs:
       - name: Import Build-Cache
         run: |
           esy import-dependencies _export
+          # make sure the cache is pruned
           rimraf _export
 
       - name: Build
