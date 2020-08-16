@@ -74,5 +74,4 @@ jobs:
       # up to roughly 4 GB for all OSes together.
       - name: Delete Cache
         if: always()
-        run: |
-          rimraf ${{ steps.print_esy_cache.outputs.esy_cache }} }}
+        run: rimraf ${{ steps.print_esy_cache.outputs.esy_cache }} }}
