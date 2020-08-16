@@ -58,11 +58,11 @@ jobs:
           revery-packager || true
           ls _release/ || true
 
+      # Delete build cache so it cannot be saved. Every OS only has one
+      # cache that is created every Monday by the prime-cache workflow.
+      # Otherwise the caches would start evicting each other since they add
+      # up to roughly 4 GB for all OSes together.
       - name: Delete Cache
         if: always()
         run: |
-          # Delete build cache so it cannot be saved. Every OS only has one
-          # cache that is created every Monday by the prime-cache workflow.
-          # Otherwise the caches would start evicting each other since they add
-          # up to roughly 4 GB for all OSes together.
           rimraf ${{ steps.print_esy_cache.outputs.esy_cache }}
