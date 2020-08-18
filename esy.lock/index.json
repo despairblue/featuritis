@@ -1,7 +1,23 @@
 {
-  "checksum": "017c5757a36bf6024c4e76812d536512",
+  "checksum": "a91250a4eb50c54528a70a96a5e32afb",
   "root": "hello-reason@link-dev:./package.json",
   "node": {
+    "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9": {
+      "id":
+        "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9",
+      "name": "yarn-pkg-config",
+      "version":
+        "github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79",
+      "source": {
+        "type": "install",
+        "source": [
+          "github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79"
+        ]
+      },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
     "revery-graphql-hooks@github:despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925@d41d8cd9": {
       "id":
         "revery-graphql-hooks@github:despairblue/revery-graphql-hooks#20fbbb1b4e8d13edc820b7648ea259d9ef14c925@d41d8cd9",
@@ -213,7 +229,7 @@
       "devDependencies": [
         "refmterr@3.3.2@d41d8cd9", "ocaml@4.10.0@d41d8cd9",
         "@reason-native/rely@3.2.1@d41d8cd9",
-        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b7376ba4f51c249b79de6bbedf5f01c1d9538f48@d41d8cd9",
+        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#9211a93a11c0a39c48d8a42daf148082d10b44f4@d41d8cd9",
         "@opam/merlin@opam:3.3.6@7ca67060"
       ]
     },
@@ -577,7 +593,7 @@
         "@reason-native-web/esy-openssl@1.1.1006@d41d8cd9",
         "@opam/dune-configurator@opam:2.6.2@a8db4839",
         "@opam/dune@opam:2.6.2@20433b4f",
-        "@opam/conf-pkg-config@opam:1.3@79803de7",
+        "@opam/conf-pkg-config@opam:1.3@93481236",
         "@opam/base-unix@opam:base@87d0b2eb"
       ],
       "devDependencies": []
@@ -596,7 +612,7 @@
       "dependencies": [
         "ocaml@4.10.0@d41d8cd9",
         "@reason-native-web/lwt_ssl@1.1.3005@d41d8cd9",
-        "@reason-native-web/h2-lwt-unix@0.6.1002@d41d8cd9",
+        "@reason-native-web/h2-lwt-unix@0.6.1001@d41d8cd9",
         "@reason-native-web/h1-lwt-unix@1.2.2001@d41d8cd9",
         "@reason-native-web/gluten-lwt-unix@0.2.1@d41d8cd9",
         "@opam/uri@opam:3.1.0@826aaae7",
@@ -626,14 +642,14 @@
       ],
       "devDependencies": []
     },
-    "@reason-native-web/h2-lwt-unix@0.6.1002@d41d8cd9": {
-      "id": "@reason-native-web/h2-lwt-unix@0.6.1002@d41d8cd9",
+    "@reason-native-web/h2-lwt-unix@0.6.1001@d41d8cd9": {
+      "id": "@reason-native-web/h2-lwt-unix@0.6.1001@d41d8cd9",
       "name": "@reason-native-web/h2-lwt-unix",
-      "version": "0.6.1002",
+      "version": "0.6.1001",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://registry.npmjs.org/@reason-native-web/h2-lwt-unix/-/h2-lwt-unix-0.6.1002.tgz#sha1:9bf1998a7a62ddfc712d22cf04a045cfc2017d8e"
+          "archive:https://registry.npmjs.org/@reason-native-web/h2-lwt-unix/-/h2-lwt-unix-0.6.1001.tgz#sha1:9f89181b5d2d244c9ee1d8a1e88fd258c4ab6d56"
         ]
       },
       "overrides": [],
@@ -814,7 +830,7 @@
       },
       "overrides": [],
       "dependencies": [
-        "@opam/conf-pkg-config@opam:1.3@79803de7",
+        "@opam/conf-pkg-config@opam:1.3@93481236",
         "@opam/conf-autoconf@opam:0.1@27b3f7cf"
       ],
       "devDependencies": []
@@ -1825,16 +1841,16 @@
         "@opam/dune@opam:2.6.2@20433b4f"
       ]
     },
-    "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b7376ba4f51c249b79de6bbedf5f01c1d9538f48@d41d8cd9": {
+    "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#9211a93a11c0a39c48d8a42daf148082d10b44f4@d41d8cd9": {
       "id":
-        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b7376ba4f51c249b79de6bbedf5f01c1d9538f48@d41d8cd9",
+        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#9211a93a11c0a39c48d8a42daf148082d10b44f4@d41d8cd9",
       "name": "@opam/ocaml-lsp-server",
       "version":
-        "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b7376ba4f51c249b79de6bbedf5f01c1d9538f48",
+        "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#9211a93a11c0a39c48d8a42daf148082d10b44f4",
       "source": {
         "type": "install",
         "source": [
-          "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b7376ba4f51c249b79de6bbedf5f01c1d9538f48"
+          "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#9211a93a11c0a39c48d8a42daf148082d10b44f4"
         ]
       },
       "overrides": [],
@@ -2755,7 +2771,7 @@
       "dependencies": [
         "ocaml@4.10.0@d41d8cd9", "@opam/ocamlfind@opam:1.8.1@ff07b0f9",
         "@opam/integers@opam:0.4.0@f7acfaeb",
-        "@opam/conf-pkg-config@opam:1.3@79803de7",
+        "@opam/conf-pkg-config@opam:1.3@93481236",
         "@opam/base-bytes@opam:base@19d0c2ff",
         "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
@@ -2791,8 +2807,8 @@
         "@opam/base-unix@opam:base@87d0b2eb"
       ]
     },
-    "@opam/conf-pkg-config@opam:1.3@79803de7": {
-      "id": "@opam/conf-pkg-config@opam:1.3@79803de7",
+    "@opam/conf-pkg-config@opam:1.3@93481236": {
+      "id": "@opam/conf-pkg-config@opam:1.3@93481236",
       "name": "@opam/conf-pkg-config",
       "version": "opam:1.3",
       "source": {
@@ -2804,8 +2820,16 @@
           "path": "esy.lock/opam/conf-pkg-config.1.3"
         }
       },
-      "overrides": [],
-      "dependencies": [ "@esy-ocaml/substs@0.0.1@d41d8cd9" ],
+      "overrides": [
+        {
+          "opamoverride":
+            "esy.lock/overrides/opam__s__conf_pkg_config_opam__c__1.3_opam_override"
+        }
+      ],
+      "dependencies": [
+        "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#db3a0b63883606dd57c54a7158d560d6cba8cd79@d41d8cd9",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
       "devDependencies": []
     },
     "@opam/conf-m4@opam:1@3b2b148a": {
